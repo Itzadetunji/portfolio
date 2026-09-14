@@ -7,6 +7,7 @@ import {
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 import { ReactLenis } from "lenis/react";
 
+import { Navbar } from "#/components/Navbar";
 import TanStackQueryDevtools from "../integrations/tanstack-query/devtools";
 import appCss from "../styles.css?url";
 import "lenis/dist/lenis.css";
@@ -43,11 +44,11 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 
 function RootDocument({ children }: { children: React.ReactNode }) {
 	return (
-		<html lang="en">
+		<html lang="en" className="dark">
 			<head>
 				<HeadContent />
 			</head>
-			<body>
+			<body className="flex min-h-dvh flex-col antialiased">
 				<ReactLenis
 					root
 					options={{
@@ -57,6 +58,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 						anchors: true,
 					}}
 				>
+					<Navbar />
 					{children}
 				</ReactLenis>
 				<TanStackDevtools
