@@ -1,16 +1,30 @@
 "use client";
 
 import Matter from "matter-js";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { SKILLS } from "#/components/icons/skills";
+import { Button } from "#/components/ui/button";
 import { Section } from "./Section";
 
 const ARENA_HEIGHT = 320;
 const WALL = 80;
 
+type DeviceMotionWithPermission = typeof DeviceMotionEvent & {
+	requestPermission?: () => Promise<PermissionState>;
+};
+
 export function Skills() {
 	const arenaRef = useRef<HTMLDivElement>(null);
 	const pillRefs = useRef<(HTMLSpanElement | null)[]>([]);
+	const bodiesRef = useRef<Matter.Body[]>([]);
+	const vibrateRef = useRef(true);
+	const lastShakeAt = useRef(0);
+	const shakeRef = useRef<(intensity?: number) => void>(() => {});
+	const [vibrate, setVibrate] = useState(true);
+
+	useEffect(() => {
+		vibrateRef.current = vibrate;
+	}, [vibrate]);
 
 	useEffect(() => {
 		const arena = arenaRef.current;
@@ -24,6 +38,25 @@ export function Skills() {
 		let frame = 0;
 		let started = false;
 		let observer: IntersectionObserver | null = null;
+		let lastMotion = { x: 0, y: 0, z: 0 };
+
+		const shakeBodies = (intensity = 1) => {
+			const now = performance.now();
+			if (now - lastShakeAt.current < 90) return;
+			lastShakeAt.current = now;
+			const force = Math.min(Math.max(intensity, 0.4), 2.8);
+			for (const body of bodiesRef.current) {
+				Matter.Body.setVelocity(body, {
+					x: (Math.random() - 0.5) * 14 * force,
+					y: (Math.random() - 0.85) * 12 * force,
+				});
+				Matter.Body.setAngularVelocity(
+					body,
+					(Math.random() - 0.5) * 0.45 * force,
+				);
+			}
+		};
+		shakeRef.current = shakeBodies;
 
 		const stop = () => {
 			cancelAnimationFrame(frame);
@@ -32,6 +65,24 @@ export function Skills() {
 				Matter.World.clear(engine.world, false);
 				Matter.Engine.clear(engine);
 			}
+		};
+
+		const onDeviceMotion = (event: DeviceMotionEvent) => {
+			const raw = event.acceleration;
+			const gravity = event.accelerationIncludingGravity;
+			let mag = Math.hypot(raw?.x ?? 0, raw?.y ?? 0, raw?.z ?? 0);
+			if (mag < 0.4 && gravity) {
+				const x = gravity.x ?? 0;
+				const y = gravity.y ?? 0;
+				const z = gravity.z ?? 0;
+				mag = Math.hypot(
+					x - lastMotion.x,
+					y - lastMotion.y,
+					z - lastMotion.z,
+				);
+				lastMotion = { x, y, z };
+			}
+			if (mag > 2.2) shakeBodies(mag / 6);
 		};
 
 		const start = () => {
@@ -87,6 +138,7 @@ export function Skills() {
 				});
 				bodies.push(body);
 			});
+			bodiesRef.current = bodies;
 			Matter.World.add(engine.world, bodies);
 
 			const mouse = Matter.Mouse.create(arena);
@@ -100,6 +152,22 @@ export function Skills() {
 			});
 			Matter.World.add(engine.world, mouseConstraint);
 
+			let tickCount = 0;
+			const onBeforeUpdate = () => {
+				if (!vibrateRef.current) return;
+				tickCount += 1;
+				if (tickCount % 3 !== 0) return;
+				const time = engine?.timing.timestamp ?? 0;
+				for (const body of bodiesRef.current) {
+					const drift = Math.sin(time / 380 + body.id) * 0.000018;
+					Matter.Body.applyForce(body, body.position, {
+						x: drift + (Math.random() - 0.5) * 0.00005,
+						y: (Math.random() - 0.5) * 0.000028,
+					});
+				}
+			};
+			Matter.Events.on(engine, "beforeUpdate", onBeforeUpdate);
+
 			const onResize = () => {
 				const next = arena.clientWidth;
 				Matter.Body.setPosition(floor, {
@@ -112,6 +180,7 @@ export function Skills() {
 				});
 			};
 			window.addEventListener("resize", onResize);
+			window.addEventListener("devicemotion", onDeviceMotion);
 
 			const tick = () => {
 				bodies.forEach((body, index) => {
@@ -128,7 +197,11 @@ export function Skills() {
 
 			cleanupExtras = () => {
 				window.removeEventListener("resize", onResize);
-				if (engine) Matter.World.remove(engine.world, mouseConstraint);
+				window.removeEventListener("devicemotion", onDeviceMotion);
+				if (engine) {
+					Matter.Events.off(engine, "beforeUpdate", onBeforeUpdate);
+					Matter.World.remove(engine.world, mouseConstraint);
+				}
 			};
 		};
 
@@ -149,19 +222,45 @@ export function Skills() {
 			observer?.disconnect();
 			cleanupExtras();
 			stop();
+			bodiesRef.current = [];
 		};
 	}, []);
+
+	async function shakeMeDad() {
+		shakeRef.current(1.35);
+		const Motion = DeviceMotionEvent as DeviceMotionWithPermission;
+		if (typeof Motion.requestPermission === "function") {
+			try {
+				await Motion.requestPermission();
+			} catch {
+				// Permission prompt is best-effort; the button still shakes.
+			}
+		}
+	}
 
 	return (
 		<Section className="border-b px-0">
 			<h2 className="border-b border-border px-4 py-2 text-xl font-medium tracking-tight">
 				Skills
 			</h2>
+			<div className="flex flex-wrap gap-2 border-b border-border px-4 py-3">
+				<Button type="button" variant="outline" size="sm" onClick={shakeMeDad}>
+					Shake Me Dad
+				</Button>
+				<Button
+					type="button"
+					variant={vibrate ? "default" : "outline"}
+					size="sm"
+					aria-pressed={vibrate}
+					onClick={() => setVibrate((on) => !on)}
+				>
+					Toggle Vibrate
+				</Button>
+			</div>
 			<div
 				ref={arenaRef}
-				aria-label="Skills. Drag the tags around."
 				data-lenis-prevent
-				className="relative cursor-grab overflow-hidden active:cursor-grabbing touch-none"
+				className="relative cursor-grab overflow-hidden touch-none active:cursor-grabbing"
 				style={{ height: ARENA_HEIGHT }}
 			>
 				{SKILLS.map((skill, index) => {
@@ -174,7 +273,7 @@ export function Skills() {
 							ref={(node) => {
 								pillRefs.current[index] = node;
 							}}
-							className="pointer-events-none absolute top-0 left-0 inline-flex select-none items-center gap-1.5 rounded-full border border-border bg-background px-2.5 py-1 text-xs font-medium whitespace-nowrap will-change-transform"
+							className="pointer-events-none absolute top-0 left-0 inline-flex select-none items-center gap-1.5 whitespace-nowrap rounded-full border border-border bg-background px-2.5 py-1 text-xs font-medium will-change-transform"
 						>
 							<Icon
 								aria-hidden
