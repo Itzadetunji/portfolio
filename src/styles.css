@@ -5,7 +5,8 @@
 @import "@fontsource-variable/bricolage-grotesque";
 @import "@fontsource-variable/dm-sans";
 @import "@fontsource-variable/dm-sans";
-@import "@fontsource/pixelify-sans";
+@import "@fontsource/pixelify-sans/400.css";
+@import "@fontsource/pixelify-sans/700.css";
 @import "@fontsource/space-mono/400.css";
 @import "@fontsource/space-mono/700.css";
 @import "tw-animate-css";
@@ -175,4 +176,39 @@ input[type="number"] {
 		background-color: white;
 		color: var(--primary);
 	}
+}
+
+html.theme-wiping::view-transition-old(root),
+html.theme-wiping::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+html.theme-wiping::view-transition-old(root) {
+  z-index: 1;
+}
+
+html.theme-wiping::view-transition-new(root) {
+  z-index: 2;
+}
+
+@keyframes navbar-weight-pulse {
+  0%,
+  100% {
+    font-weight: 400;
+  }
+  50% {
+    font-weight: 700;
+  }
+}
+
+.navbar-brand {
+  font-weight: 400;
+  animation: navbar-weight-pulse 1.8s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .navbar-brand {
+    animation: none;
+  }
 }

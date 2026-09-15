@@ -57,9 +57,10 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 						smoothWheel: true,
 						anchors: true,
 					}}
+					className="flex min-h-dvh flex-col"
 				>
 					<Navbar />
-					{children}
+					<main className="flex min-h-0 flex-1 flex-col">{children}</main>
 				</ReactLenis>
 				<TanStackDevtools
 					config={{

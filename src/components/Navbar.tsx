@@ -1,8 +1,21 @@
 "use client";
 
-import { GithubLogoIcon, MoonIcon, SunIcon } from "@phosphor-icons/react";
+import {
+	GithubLogoIcon,
+	ListIcon,
+	MoonIcon,
+	SunIcon,
+} from "@phosphor-icons/react";
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
+import { ThemeRocketTransition } from "#/components/ThemeRocketTransition";
+import { Button } from "#/components/ui/button";
+import {
+	Popover,
+	PopoverContent,
+	PopoverTrigger,
+} from "#/components/ui/popover";
+import { withUtm } from "#/lib/utm";
 
 const links = [
 	{ to: "/projects", label: "Projects" },
@@ -11,24 +24,36 @@ const links = [
 
 export function Navbar() {
 	const [isDark, setIsDark] = useState(true);
+	const [flight, setFlight] = useState<{ toDark: boolean } | null>(null);
+	const [menuOpen, setMenuOpen] = useState(false);
 
 	function toggleTheme() {
-		const next = !isDark;
-		setIsDark(next);
-		document.documentElement.classList.toggle("dark", next);
+		if (flight) return;
+		setFlight({ toDark: !isDark });
 	}
+
+	function handleThemeApply() {
+		if (flight) setIsDark(flight.toDark);
+	}
+
+	function handleFlightComplete() {
+		setFlight(null);
+	}
+
+	const iconBtn =
+		"relative inline-flex size-10 items-center justify-center text-muted-foreground hover:text-foreground";
 
 	return (
 		<header className="sticky top-0 z-50 w-full border-b border-border bg-background">
-			<nav className="mx-auto grid h-14 max-w-5xl grid-cols-[1fr_auto_1fr] items-center px-4">
+			<nav className="mx-auto grid h-14 max-w-3xl grid-cols-[1fr_auto_auto] items-center px-4 sm:grid-cols-[1fr_auto_1fr] border-x">
 				<Link
 					to="/"
-					className="font-pixelify justify-self-start text-xl tracking-tight text-foreground"
+					className="navbar-brand font-pixelify justify-self-start text-xl tracking-tight text-foreground"
 				>
 					Adetunji
 				</Link>
 
-				<div className="flex items-center gap-6">
+				<div className="hidden items-center gap-6 sm:flex">
 					{links.map((link) => (
 						<Link
 							key={link.to}
@@ -43,31 +68,72 @@ export function Navbar() {
 					))}
 				</div>
 
-				<div className="flex items-center justify-self-end">
-					<div className="mr-2 h-4 w-px bg-border" aria-hidden />
+				<div className="flex items-center justify-self-end sm:col-start-3">
+					<div
+						className="mr-2 hidden h-4 w-px bg-border sm:block"
+						aria-hidden
+					/>
 					<a
-						href="https://github.com/itzadetunji"
+						href={withUtm("https://github.com/itzadetunji")}
 						target="_blank"
 						rel="noreferrer"
 						aria-label="GitHub profile"
-						className="relative inline-flex size-10 items-center justify-center text-muted-foreground hover:text-foreground"
+						className={iconBtn}
 					>
-						<GithubLogoIcon className="size-4.5" weight="regular" />
+						<GithubLogoIcon size={18} weight="regular" />
 					</a>
 					<button
 						type="button"
 						onClick={toggleTheme}
+						disabled={!!flight}
 						aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
-						className="relative inline-flex size-10 items-center justify-center text-muted-foreground hover:text-foreground"
+						className={`${iconBtn} disabled:opacity-100`}
 					>
 						{isDark ? (
-							<MoonIcon className="size-4.5" weight="regular" />
+							<MoonIcon size={18} weight="regular" />
 						) : (
-							<SunIcon className="size-4.5" weight="regular" />
+							<SunIcon size={18} weight="regular" />
 						)}
 					</button>
 				</div>
+
+				<div className="sm:hidden">
+					<Popover open={menuOpen} onOpenChange={setMenuOpen}>
+						<PopoverTrigger asChild>
+							<Button
+								type="button"
+								variant="ghost"
+								size="icon"
+								aria-label="Open menu"
+								className="justify-self-end"
+							>
+								<ListIcon size={18} weight="regular" />
+							</Button>
+						</PopoverTrigger>
+						<PopoverContent align="end" className="w-44 gap-1 rounded-xl p-2">
+							{links.map((link) => (
+								<Link
+									key={link.to}
+									to={link.to}
+									onClick={() => setMenuOpen(false)}
+									className="rounded-lg px-3 py-2 text-sm text-muted-foreground hover:bg-muted hover:text-foreground"
+									activeProps={{
+										className: "text-foreground",
+									}}
+								>
+									{link.label}
+								</Link>
+							))}
+						</PopoverContent>
+					</Popover>
+				</div>
 			</nav>
+			<ThemeRocketTransition
+				active={!!flight}
+				toDark={flight?.toDark ?? !isDark}
+				onApply={handleThemeApply}
+				onComplete={handleFlightComplete}
+			/>
 		</header>
 	);
 }
