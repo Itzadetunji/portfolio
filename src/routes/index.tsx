@@ -4,6 +4,7 @@ import { Activity } from "./index/-components/Activity";
 import { Experience } from "./index/-components/Experience";
 import { Hero } from "./index/-components/Hero";
 import { Projects } from "./index/-components/Projects";
+import { Quote } from "./index/-components/Quote";
 import { StripeDivider } from "./index/-components/Section";
 import { Skills } from "./index/-components/Skills";
 import { Socials } from "./index/-components/Socials";
@@ -26,6 +27,8 @@ function Home() {
 			<Projects />
 			<StripeDivider />
 			<Skills />
+			<StripeDivider />
+			<Quote />
 		</>
 	);
 }

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Manrope:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,700;1,9..144,500;1,9..144,700&family=Manrope:wght@400;500;600;700;800&display=swap');
 @import 'tailwindcss';
 @plugin '@tailwindcss/typography';
 
@@ -144,6 +144,7 @@
   --font-sans: 'Inter Variable', sans-serif;
 	--font-mono: "Space Mono", monospace;
 	--font-pixelify: "Pixelify Sans", sans-serif;
+	--font-serif: "Fraunces", serif;
 	--font-heading: var(--font-sans);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
