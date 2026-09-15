@@ -1,7 +1,7 @@
 "use client";
 
 import Matter from "matter-js";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { SKILLS } from "#/components/icons/skills";
 import { Button } from "#/components/ui/button";
 import { Section } from "./Section";
@@ -17,14 +17,8 @@ export function Skills() {
 	const arenaRef = useRef<HTMLDivElement>(null);
 	const pillRefs = useRef<(HTMLSpanElement | null)[]>([]);
 	const bodiesRef = useRef<Matter.Body[]>([]);
-	const vibrateRef = useRef(true);
 	const lastShakeAt = useRef(0);
 	const shakeRef = useRef<(intensity?: number) => void>(() => {});
-	const [vibrate, setVibrate] = useState(true);
-
-	useEffect(() => {
-		vibrateRef.current = vibrate;
-	}, [vibrate]);
 
 	useEffect(() => {
 		const arena = arenaRef.current;
@@ -152,22 +146,6 @@ export function Skills() {
 			});
 			Matter.World.add(engine.world, mouseConstraint);
 
-			let tickCount = 0;
-			const onBeforeUpdate = () => {
-				if (!vibrateRef.current) return;
-				tickCount += 1;
-				if (tickCount % 3 !== 0) return;
-				const time = engine?.timing.timestamp ?? 0;
-				for (const body of bodiesRef.current) {
-					const drift = Math.sin(time / 380 + body.id) * 0.000018;
-					Matter.Body.applyForce(body, body.position, {
-						x: drift + (Math.random() - 0.5) * 0.00005,
-						y: (Math.random() - 0.5) * 0.000028,
-					});
-				}
-			};
-			Matter.Events.on(engine, "beforeUpdate", onBeforeUpdate);
-
 			const onResize = () => {
 				const next = arena.clientWidth;
 				Matter.Body.setPosition(floor, {
@@ -199,7 +177,6 @@ export function Skills() {
 				window.removeEventListener("resize", onResize);
 				window.removeEventListener("devicemotion", onDeviceMotion);
 				if (engine) {
-					Matter.Events.off(engine, "beforeUpdate", onBeforeUpdate);
 					Matter.World.remove(engine.world, mouseConstraint);
 				}
 			};
@@ -240,21 +217,10 @@ export function Skills() {
 
 	return (
 		<Section className="px-0">
-			<h2 className="border-b border-border px-4 py-2 text-xl font-medium tracking-tight">
-				Skills
-			</h2>
-			<div className="flex flex-wrap gap-2 border-b border-border px-4 py-3">
+			<div className="flex items-center justify-between gap-3 border-b border-border px-4 py-2">
+				<h2 className="text-xl font-medium tracking-tight">Skills</h2>
 				<Button type="button" variant="outline" size="sm" onClick={shakeMeDad}>
 					Shake Me Dad
-				</Button>
-				<Button
-					type="button"
-					variant={vibrate ? "default" : "outline"}
-					size="sm"
-					aria-pressed={vibrate}
-					onClick={() => setVibrate((on) => !on)}
-				>
-					Toggle Vibrate
 				</Button>
 			</div>
 			<div

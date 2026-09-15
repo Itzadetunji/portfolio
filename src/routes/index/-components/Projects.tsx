@@ -128,25 +128,87 @@ function ViewProjectLink({ href }: { href: string }) {
 	);
 }
 
+function ProjectHoverBackdrop() {
+	return (
+		<svg
+			aria-hidden
+			className="h-full w-full"
+			preserveAspectRatio="xMidYMid slice"
+			viewBox="0 0 480 300"
+		>
+			<rect fill="#f3eadc" height="300" width="480" />
+			<path
+				d="M-48 28c88-78 196-12 228 70 34 86-78 148-158 118C-66 186-92 92-48 28Z"
+				fill="#c49a4a"
+			/>
+			<path
+				d="M168 8c78-48 176-8 208 72 28 72-22 128-96 136-78 8-148-52-148-116 0-36 14-68 36-92Z"
+				fill="#e8c4b0"
+			/>
+			<path
+				d="M292-24c92-28 198 62 168 148-28 80-126 46-184-8-52-48-44-112 16-140Z"
+				fill="#f0d2c4"
+			/>
+			<path
+				d="M-28 188c96-48 196 38 148 118-40 66-148 28-176-42-18-46 0-88 28-76Z"
+				fill="#d9b07a"
+			/>
+			<path
+				d="M360 168c92-44 168 52 128 128-36 68-148 36-176-28-24-54 20-92 48-100Z"
+				fill="#efe0cf"
+			/>
+			<path
+				d="M210 118c64-36 148 8 136 78-12 64-108 72-156 28-40-36-28-78 20-106Z"
+				fill="#f7ebe0"
+			/>
+		</svg>
+	);
+}
+
+function ProjectPreview({ project }: { project: Project }) {
+	const live = project.live ?? project.href;
+
+	return (
+		<a
+			href={withUtm(live)}
+			target="_blank"
+			rel="noreferrer"
+			className="group block outline-none"
+		>
+			<div className="rounded-[10px] border border-border p-[4px]">
+				<div className="relative h-[200px] overflow-hidden rounded-[6px] border border-border bg-muted select-none">
+					<div
+						aria-hidden
+						className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-focus-visible:opacity-100 group-hover:opacity-100 motion-reduce:transition-none"
+					>
+						<ProjectHoverBackdrop />
+					</div>
+					<span className="absolute top-2 left-2 z-10 text-xs font-medium text-muted-foreground transition-all duration-300 group-focus-visible:left-1/2 group-focus-visible:-translate-x-1/2 group-focus-visible:text-black group-hover:left-1/2 group-hover:-translate-x-1/2 group-hover:text-black">
+						{project.name} Screen
+					</span>
+					<div className="absolute bottom-0 left-1/2 h-[75%] w-[80%] -translate-x-1/2 rounded-t-[6px] border border-b-0 border-border bg-background p-[2px] pb-0 transition-all duration-300 group-focus-visible:h-[70%] group-hover:h-[70%] motion-reduce:transition-none motion-reduce:group-focus-visible:h-[75%] motion-reduce:group-hover:h-[75%]">
+						<div className="relative h-full w-full overflow-hidden rounded-t-[4px]">
+							<img
+								src={project.image}
+								alt=""
+								width={1200}
+								height={630}
+								className="absolute inset-x-0 top-0 h-[110%] w-full object-cover object-top transition-[height] duration-300 group-focus-visible:h-[115%] group-hover:h-[115%] motion-reduce:transition-none motion-reduce:group-focus-visible:h-[110%] motion-reduce:group-hover:h-[110%]"
+							/>
+						</div>
+					</div>
+				</div>
+			</div>
+		</a>
+	);
+}
+
 function ProjectCard({ project }: { project: Project }) {
 	const live = project.live ?? project.href;
 
 	return (
 		<article className="flex flex-col gap-2 p-4">
-			<a
-				href={withUtm(live)}
-				target="_blank"
-				rel="noreferrer"
-				className="group/media block overflow-hidden rounded-md border border-border"
-			>
-				<img
-					src={project.image}
-					alt=""
-					width={1200}
-					height={630}
-					className="h-44 w-full object-cover object-top transition-transform duration-500 ease-out group-hover/media:scale-[1.03] motion-reduce:transition-none motion-reduce:group-hover/media:scale-100 sm:h-48"
-				/>
-			</a>
+			<ProjectPreview project={project} />
 			<div className="flex items-center justify-between gap-3">
 				<h3 className="min-w-0 truncate text-[15px] font-semibold leading-snug">
 					<a
