@@ -7,6 +7,7 @@ import {
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 import { ReactLenis } from "lenis/react";
 
+import { Footer } from "#/components/Footer";
 import { Navbar } from "#/components/Navbar";
 import TanStackQueryDevtools from "../integrations/tanstack-query/devtools";
 import appCss from "../styles.css?url";
@@ -61,6 +62,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 				>
 					<Navbar />
 					<main className="flex min-h-0 flex-1 flex-col">{children}</main>
+					<Footer />
 				</ReactLenis>
 				<TanStackDevtools
 					config={{
