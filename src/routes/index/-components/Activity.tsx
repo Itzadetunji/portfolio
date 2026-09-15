@@ -118,7 +118,7 @@ export function Activity() {
 	})();
 
 	return (
-		<Section className="border-b px-0">
+		<Section className="px-0">
 			<h2 className="border-b border-border px-4 py-2 text-xl font-medium tracking-tight">
 				Activity
 			</h2>

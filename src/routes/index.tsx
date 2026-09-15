@@ -4,6 +4,7 @@ import { Activity } from "./index/-components/Activity";
 import { Experience } from "./index/-components/Experience";
 import { Hero } from "./index/-components/Hero";
 import { Projects } from "./index/-components/Projects";
+import { StripeDivider } from "./index/-components/Section";
 import { Skills } from "./index/-components/Skills";
 import { Socials } from "./index/-components/Socials";
 
@@ -13,11 +14,17 @@ function Home() {
 	return (
 		<>
 			<Hero />
+			<StripeDivider />
 			<About />
+			<StripeDivider />
 			<Socials />
+			<StripeDivider />
 			<Experience />
+			<StripeDivider />
 			<Activity />
+			<StripeDivider />
 			<Projects />
+			<StripeDivider />
 			<Skills />
 		</>
 	);

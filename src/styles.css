@@ -32,6 +32,41 @@
   }
 }
 
+@utility diagonal-stripes {
+  --pattern-foreground: color-mix(in oklab, var(--line) 56%, transparent);
+  background-image: repeating-linear-gradient(
+    315deg,
+    var(--pattern-foreground) 0,
+    var(--pattern-foreground) 1px,
+    transparent 0,
+    transparent 50%
+  );
+  background-size: 10px 10px;
+}
+
+@utility stripe-divider {
+  position: relative;
+
+  &::before {
+    content: "";
+    position: absolute;
+    left: -100vw;
+    z-index: -1;
+    height: 100%;
+    width: 200vw;
+    border: 1px solid var(--line);
+    --pattern-foreground: color-mix(in oklab, var(--line) 56%, transparent);
+    background-image: repeating-linear-gradient(
+      315deg,
+      var(--pattern-foreground) 0,
+      var(--pattern-foreground) 1px,
+      transparent 0,
+      transparent 50%
+    );
+    background-size: 10px 10px;
+  }
+}
+
 :root {
   --background: oklch(1 0 0);
   --foreground: oklch(0.188 0.03 265.882);
@@ -50,6 +85,8 @@
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(0.577 0.245 27.325);
   --border: oklch(0.922 0 0);
+  --line: color-mix(in oklab, var(--border) 64%, var(--background));
+  --separator-height: 2rem;
   --input: oklch(0.922 0 0);
   --ring: oklch(0.462 0.055 245.539);
   --chart-1: oklch(0.87 0 0);
@@ -125,6 +162,7 @@
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
   --color-border: var(--border);
+  --color-line: var(--line);
   --color-input: var(--input);
   --color-ring: var(--ring);
   --color-chart-1: var(--chart-1);
@@ -167,7 +205,7 @@ input[type="number"] {
 	}
 
   html {
-    @apply font-sans;
+    @apply font-sans overflow-x-hidden;
     scroll-behavior: smooth;
 	}
 

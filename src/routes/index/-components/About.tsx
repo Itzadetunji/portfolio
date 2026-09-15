@@ -10,7 +10,7 @@ function TechGroup({ children }: { children: string }) {
 
 export function About() {
 	return (
-		<Section className="border-y px-0">
+		<Section className="px-0">
 			<h2 className="border-b border-border px-4 py-2 text-xl font-medium tracking-tight">
 				About
 			</h2>

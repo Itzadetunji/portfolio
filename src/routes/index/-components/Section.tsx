@@ -1,6 +1,15 @@
 import { cn } from "cn";
 import type { ReactNode } from "react";
 
+export function StripeDivider() {
+	return (
+		<div
+			aria-hidden
+			className="stripe-divider mx-auto h-(--separator-height) w-full max-w-3xl border-x"
+		/>
+	);
+}
+
 export function Section({
 	children,
 	className,
