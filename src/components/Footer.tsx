@@ -1,4 +1,5 @@
 import { Link } from "@tanstack/react-router";
+import { InteractiveDots } from "#/components/InteractiveDots";
 
 export function Footer() {
 	const year = new Date().getFullYear();
@@ -16,11 +17,14 @@ export function Footer() {
 						to="/"
 						className="font-medium text-foreground underline decoration-foreground underline-offset-[3px] transition-colors hover:text-primary"
 					>
-						Adetunji
+						Adetunji ❤️
 					</Link>
 				</p>
 				<p className="mt-1">© {year}. Built in the open.</p>
 			</footer>
+			<div className="mx-auto w-full max-w-3xl border-x border-b">
+				<InteractiveDots />
+			</div>
 		</>
 	);
 }
