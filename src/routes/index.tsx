@@ -4,6 +4,7 @@ import { Activity } from "./index/-components/Activity";
 import { Experience } from "./index/-components/Experience";
 import { Hero } from "./index/-components/Hero";
 import { Projects } from "./index/-components/Projects";
+import { Skills } from "./index/-components/Skills";
 import { Socials } from "./index/-components/Socials";
 
 export const Route = createFileRoute("/")({ component: Home });
@@ -17,6 +18,7 @@ function Home() {
 			<Experience />
 			<Activity />
 			<Projects />
+			<Skills />
 		</>
 	);
 }
