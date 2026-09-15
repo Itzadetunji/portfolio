@@ -39,6 +39,7 @@
     "clsx": "^2.1.1",
     "cn": "^0.3.0",
     "country-state-city": "github:Itzadetunji/country-state-city",
+    "date-fns": "^4.4.0",
     "lenis": "^1.3.26",
     "nitro": "3.0.260610-beta",
     "radix-ui": "^1.6.7",

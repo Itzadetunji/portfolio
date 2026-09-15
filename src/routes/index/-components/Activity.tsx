@@ -104,6 +104,9 @@ export function Activity() {
 
 	const weeks = buildWeeks(data?.contributions ?? []);
 	const labels = monthLabels(weeks);
+	const weekGrid = {
+		"--weeks": String(weeks.length),
+	} as React.CSSProperties;
 	const total = weeks
 		.flat()
 		.reduce((sum, day) => sum + day.count, 0);
@@ -122,44 +125,44 @@ export function Activity() {
 			<TooltipProvider delayDuration={200}>
 				<div className="px-4 py-4">
 					<div
-						className="mb-1 grid text-[11px] text-muted-foreground"
-						style={{
-							gridTemplateColumns: `repeat(${weeks.length}, minmax(0, 1fr))`,
-						}}
+						className="no-scrollbar overflow-x-auto"
+						data-lenis-prevent
 					>
-						{labels.map((label, index) => (
-							<span
-								key={weeks[index][0].date}
-								className="overflow-visible whitespace-nowrap"
-							>
-								{label}
-							</span>
-						))}
-					</div>
-					<div
-						className="grid w-full gap-0.75"
-						style={{
-							gridTemplateColumns: `repeat(${weeks.length}, minmax(0, 1fr))`,
-						}}
-					>
-						{weeks.map((week) => (
+						<div className="w-max sm:w-full">
 							<div
-								key={week[0].date}
-								className="flex flex-col gap-0.75"
+								className="contribution-weeks mb-1 grid gap-0.5 text-[11px] text-muted-foreground"
+								style={weekGrid}
 							>
-								{week.map((day) => (
-									<Tooltip key={day.date}>
-										<TooltipTrigger
-											aria-label={contributionLabel(day)}
-											className={`aspect-square w-full min-w-0 rounded-[3px] border-0 p-0 ${LEVELS[day.level] ?? LEVELS[0]}`}
-										/>
-										<TooltipContent side="top" sideOffset={4}>
-											{contributionLabel(day)}
-										</TooltipContent>
-									</Tooltip>
+								{labels.map((label, index) => (
+									<span
+										key={weeks[index][0].date}
+										className="min-w-0 overflow-visible whitespace-nowrap"
+									>
+										{label}
+									</span>
 								))}
 							</div>
-						))}
+							<div className="contribution-weeks grid gap-0.5" style={weekGrid}>
+								{weeks.map((week) => (
+									<div
+										key={week[0].date}
+										className="flex w-2.5 flex-col gap-0.5 sm:w-full"
+									>
+										{week.map((day) => (
+											<Tooltip key={day.date}>
+												<TooltipTrigger
+													aria-label={contributionLabel(day)}
+													className={`size-2.5 shrink-0 rounded-[3px] border-0 p-0 sm:aspect-square sm:size-auto sm:w-full ${LEVELS[day.level] ?? LEVELS[0]}`}
+												/>
+												<TooltipContent side="top" sideOffset={4}>
+													{contributionLabel(day)}
+												</TooltipContent>
+											</Tooltip>
+										))}
+									</div>
+								))}
+							</div>
+						</div>
 					</div>
 					<div className="mt-3 flex items-center justify-between text-xs text-muted-foreground">
 						<p>

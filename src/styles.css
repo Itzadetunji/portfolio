@@ -15,6 +15,23 @@
 
 @custom-variant dark (&:is(.dark *));
 
+@utility no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@utility contribution-weeks {
+  grid-template-columns: repeat(var(--weeks), 10px);
+
+  @media (width >= 640px) {
+    grid-template-columns: repeat(var(--weeks), minmax(0, 1fr));
+  }
+}
+
 :root {
   --background: oklch(1 0 0);
   --foreground: oklch(0.188 0.03 265.882);
