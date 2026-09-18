@@ -290,7 +290,7 @@ export function InteractivePiano() {
 				<div ref={hostRef} className="sr-only" aria-hidden />
 				<div className="relative mb-1.5 select-none">
 					<div className="absolute top-2 left-2 z-20">
-						<DropdownMenu>
+						<DropdownMenu modal={false}>
 							<DropdownMenuTrigger asChild>
 								<Button
 									type="button"
