@@ -20,7 +20,7 @@ export function Footer() {
 						Adetunji ❤️
 					</Link>
 				</p>
-				<p className="mt-1">© {year}. Built in the open.</p>
+				<p className="mt-1">© {year}. Built with love.</p>
 			</footer>
 			<div className="mx-auto w-full max-w-3xl border-x border-b">
 				<InteractiveDots />

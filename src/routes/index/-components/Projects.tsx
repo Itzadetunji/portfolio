@@ -5,6 +5,7 @@ import { Link } from "@tanstack/react-router";
 import { createTimeline, utils } from "animejs";
 import { useEffect, useRef } from "react";
 import { TECH, type TechId } from "#/components/icons";
+import { EntryReveal } from "#/components/EntryReveal";
 import { withUtm } from "#/lib/utm";
 import { Section } from "./Section";
 
@@ -300,8 +301,10 @@ export function Projects() {
 					aria-hidden
 					className="pointer-events-none absolute inset-y-0 left-1/2 hidden w-px bg-border sm:block"
 				/>
-				{PROJECTS.map((project) => (
-					<ProjectCard key={project.name} project={project} />
+				{PROJECTS.slice(0, 2).map((project, index) => (
+					<EntryReveal key={project.name} delayMs={index * 100}>
+						<ProjectCard project={project} />
+					</EntryReveal>
 				))}
 			</div>
 			<div className="flex justify-center border-t border-border px-4 py-4">
