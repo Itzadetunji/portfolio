@@ -39,6 +39,46 @@ export const PROJECTS: Project[] = [
 		repo: "https://github.com/insanekrishnna/pureab",
 		stack: ["typescript", "nextjs", "tailwind", "pdflib"],
 	},
+	{
+		name: "Icodraw",
+		description:
+			"A lightweight screen-capture and annotation tool for macOS, Windows and Linux - grab a region, mark it up, and share it without a heavyweight editor in the way.",
+		image: "/projects/icodraw.png",
+		href: "https://icodraw.prathm.me/",
+		live: "https://icodraw.prathm.me/",
+		repo: "https://github.com/insanekrishnna/inki",
+		stack: ["typescript", "react", "vite", "tailwind"],
+	},
+	{
+		name: "Paperlab",
+		description:
+			"46 PDF tools that run entirely in the browser - merge, split, convert and OCR without an upload, a sign-up or a watermark, because the files never leave the device.",
+		image: "/projects/paperlab.png",
+		href: "https://paperlabb.vercel.app/",
+		live: "https://paperlabb.vercel.app/",
+		repo: "https://github.com/insanekrishnna/pureab",
+		stack: ["typescript", "nextjs", "tailwind", "pdflib"],
+	},
+	{
+		name: "Icodraw",
+		description:
+			"A lightweight screen-capture and annotation tool for macOS, Windows and Linux - grab a region, mark it up, and share it without a heavyweight editor in the way.",
+		image: "/projects/icodraw.png",
+		href: "https://icodraw.prathm.me/",
+		live: "https://icodraw.prathm.me/",
+		repo: "https://github.com/insanekrishnna/inki",
+		stack: ["typescript", "react", "vite", "tailwind"],
+	},
+	{
+		name: "Paperlab",
+		description:
+			"46 PDF tools that run entirely in the browser - merge, split, convert and OCR without an upload, a sign-up or a watermark, because the files never leave the device.",
+		image: "/projects/paperlab.png",
+		href: "https://paperlabb.vercel.app/",
+		live: "https://paperlabb.vercel.app/",
+		repo: "https://github.com/insanekrishnna/pureab",
+		stack: ["typescript", "nextjs", "tailwind", "pdflib"],
+	},
 ];
 
 const chip =
@@ -205,7 +245,7 @@ function ProjectPreview({ project }: { project: Project }) {
 	);
 }
 
-function ProjectCard({ project }: { project: Project }) {
+export function ProjectCard({ project }: { project: Project }) {
 	const live = project.live ?? project.href;
 
 	return (
