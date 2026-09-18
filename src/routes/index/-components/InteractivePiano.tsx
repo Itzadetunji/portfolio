@@ -184,10 +184,6 @@ export function InteractivePiano() {
 		<Section className="px-0">
 			<div className="px-3 py-5 sm:px-4">
 				<div ref={hostRef} className="sr-only" aria-hidden />
-				<p className="mb-3 font-mono text-[11px] text-muted-foreground">
-					<span className="text-foreground">A S D F G H J K</span>
-					<span className="mx-2 text-border">·</span>d r m f s l t d
-				</p>
 				<div className="relative mb-1.5 select-none">
 					<div className="flex border-y border-l border-border">
 						{WHITE_KEYS.map((key) => {
@@ -207,7 +203,7 @@ export function InteractivePiano() {
 									)}
 									{...bindKey(key.id)}
 								>
-									<span className="font-mono text-[10px] font-medium text-muted-foreground">
+									<span className="pointer-events-none absolute inset-x-0 top-[6.75rem] font-mono text-[10px] font-medium text-muted-foreground">
 										{key.key}
 									</span>
 									<span className="text-[13px] font-semibold leading-none">
