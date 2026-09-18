@@ -1,5 +1,10 @@
 "use client";
 
+import {
+	MusicNotesIcon,
+	PauseIcon,
+	PlayIcon,
+} from "@phosphor-icons/react";
 import { cn } from "cn";
 import {
 	type PointerEvent,
@@ -8,6 +13,18 @@ import {
 	useRef,
 	useState,
 } from "react";
+import { Button } from "#/components/ui/button";
+import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuLabel,
+	DropdownMenuRadioGroup,
+	DropdownMenuRadioItem,
+	DropdownMenuSeparator,
+	DropdownMenuTrigger,
+} from "#/components/ui/dropdown-menu";
+import songBook from "./piano-songs.json";
 import { Section } from "./Section";
 
 type NoteId =
@@ -73,6 +90,10 @@ const KEY_TO_NOTE: Record<string, NoteId> = {
 	u: "As3",
 };
 
+const SONGS = songBook.songs;
+
+type SongNote = (typeof SONGS)[number]["notes"][number];
+
 function isTypingTarget(target: EventTarget | null) {
 	if (!(target instanceof HTMLElement)) return false;
 	const tag = target.tagName;
@@ -86,8 +107,13 @@ function isTypingTarget(target: EventTarget | null) {
 
 export function InteractivePiano() {
 	const [active, setActive] = useState<Set<NoteId>>(new Set());
+	const [songId, setSongId] = useState(SONGS[0]?.id ?? "");
+	const [isPlaying, setIsPlaying] = useState(false);
 	const activeRef = useRef(active);
 	activeRef.current = active;
+	const isPlayingRef = useRef(false);
+	isPlayingRef.current = isPlaying;
+	const manualHoldRef = useRef(new Set<NoteId>());
 	const voices = useRef(new Map<NoteId, HTMLAudioElement>());
 	const hostRef = useRef<HTMLDivElement>(null);
 
@@ -123,11 +149,10 @@ export function InteractivePiano() {
 
 	const press = useCallback((id: NoteId) => {
 		if (activeRef.current.has(id)) return;
-		setActive((prev) => {
-			const next = new Set(prev);
-			next.add(id);
-			return next;
-		});
+		const next = new Set(activeRef.current);
+		next.add(id);
+		activeRef.current = next;
+		setActive(next);
 		const audio = voices.current.get(id);
 		if (!audio) return;
 		audio.currentTime = 0;
@@ -136,11 +161,16 @@ export function InteractivePiano() {
 
 	const release = useCallback((id: NoteId) => {
 		if (!activeRef.current.has(id)) return;
-		setActive((prev) => {
-			const next = new Set(prev);
-			next.delete(id);
-			return next;
-		});
+		const next = new Set(activeRef.current);
+		next.delete(id);
+		activeRef.current = next;
+		setActive(next);
+	}, []);
+
+	const stopAutoplay = useCallback(() => {
+		if (!isPlayingRef.current) return;
+		isPlayingRef.current = false;
+		setIsPlaying(false);
 	}, []);
 
 	useEffect(() => {
@@ -151,14 +181,21 @@ export function InteractivePiano() {
 			const note = KEY_TO_NOTE[event.key.toLowerCase()];
 			if (!note) return;
 			event.preventDefault();
+			stopAutoplay();
+			manualHoldRef.current.add(note);
 			press(note);
 		};
 		const onUp = (event: KeyboardEvent) => {
 			const note = KEY_TO_NOTE[event.key.toLowerCase()];
 			if (!note) return;
+			manualHoldRef.current.delete(note);
 			release(note);
 		};
-		const onBlur = () => setActive(new Set());
+		const onBlur = () => {
+			if (isPlaying) return;
+			activeRef.current = new Set();
+			setActive(new Set());
+		};
 		window.addEventListener("keydown", onDown);
 		window.addEventListener("keyup", onUp);
 		window.addEventListener("blur", onBlur);
@@ -167,17 +204,84 @@ export function InteractivePiano() {
 			window.removeEventListener("keyup", onUp);
 			window.removeEventListener("blur", onBlur);
 		};
-	}, [press, release]);
+	}, [press, release, isPlaying, stopAutoplay]);
+
+	useEffect(() => {
+		if (!isPlaying) return;
+		const song = SONGS.find((entry) => entry.id === songId);
+		if (!song) return;
+
+		let index = 0;
+		let timeout = 0;
+		let held: NoteId | null = null;
+		let cancelled = false;
+		const beatMs = 60000 / song.bpm;
+
+		const releaseHeld = () => {
+			if (!held) return;
+			release(held);
+			held = null;
+		};
+
+		const playStep = () => {
+			if (cancelled) return;
+			const event = song.notes[index] as SongNote;
+			index = (index + 1) % song.notes.length;
+			const duration = Math.max(30, event.beats * beatMs);
+
+			if (event.key) {
+				const note = KEY_TO_NOTE[event.key.toLowerCase()];
+				if (note) {
+					press(note);
+					held = note;
+					const sustain = Math.min(
+						duration - 20,
+						Math.max(36, duration * 0.68),
+					);
+					timeout = window.setTimeout(() => {
+						releaseHeld();
+						timeout = window.setTimeout(
+							playStep,
+							Math.max(20, duration - sustain),
+						);
+					}, sustain);
+					return;
+				}
+			}
+
+			timeout = window.setTimeout(playStep, duration);
+		};
+
+		playStep();
+		return () => {
+			cancelled = true;
+			window.clearTimeout(timeout);
+			if (held && !manualHoldRef.current.has(held)) {
+				release(held);
+			}
+		};
+	}, [isPlaying, songId, press, release]);
 
 	const bindKey = (id: NoteId) => ({
 		onPointerDown: (event: PointerEvent<HTMLButtonElement>) => {
 			event.preventDefault();
 			event.currentTarget.setPointerCapture(event.pointerId);
+			stopAutoplay();
+			manualHoldRef.current.add(id);
 			press(id);
 		},
-		onPointerUp: () => release(id),
-		onPointerCancel: () => release(id),
-		onLostPointerCapture: () => release(id),
+		onPointerUp: () => {
+			manualHoldRef.current.delete(id);
+			release(id);
+		},
+		onPointerCancel: () => {
+			manualHoldRef.current.delete(id);
+			release(id);
+		},
+		onLostPointerCapture: () => {
+			manualHoldRef.current.delete(id);
+			release(id);
+		},
 	});
 
 	return (
@@ -185,6 +289,50 @@ export function InteractivePiano() {
 			<div className="px-3 py-5 sm:px-4">
 				<div ref={hostRef} className="sr-only" aria-hidden />
 				<div className="relative mb-1.5 select-none">
+					<div className="absolute top-2 left-2 z-20">
+						<DropdownMenu>
+							<DropdownMenuTrigger asChild>
+								<Button
+									type="button"
+									variant="outline"
+									size="icon-sm"
+									aria-label="Piano controls"
+									className="bg-background/80 backdrop-blur-sm"
+								>
+									<MusicNotesIcon weight="regular" />
+								</Button>
+							</DropdownMenuTrigger>
+							<DropdownMenuContent align="start" className="w-56 min-w-56">
+								<DropdownMenuItem
+									onSelect={() =>
+										setIsPlaying((playing) => {
+											isPlayingRef.current = !playing;
+											return !playing;
+										})
+									}
+								>
+									{isPlaying ? (
+										<PauseIcon weight="fill" />
+									) : (
+										<PlayIcon weight="fill" />
+									)}
+									{isPlaying ? "Pause" : "Play"}
+								</DropdownMenuItem>
+								<DropdownMenuSeparator />
+								<DropdownMenuLabel>Songs</DropdownMenuLabel>
+								<DropdownMenuRadioGroup
+									value={songId}
+									onValueChange={setSongId}
+								>
+									{SONGS.map((song) => (
+										<DropdownMenuRadioItem key={song.id} value={song.id}>
+											{song.title}
+										</DropdownMenuRadioItem>
+									))}
+								</DropdownMenuRadioGroup>
+							</DropdownMenuContent>
+						</DropdownMenu>
+					</div>
 					<div className="flex border-y border-l border-border">
 						{WHITE_KEYS.map((key) => {
 							const pressed = active.has(key.id);
