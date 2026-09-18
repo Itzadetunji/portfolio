@@ -192,9 +192,9 @@ export function InteractivePiano() {
 					<span className="mx-2 text-border">·</span>
 					d r m f s l t d
 				</p>
-				<div className="relative select-none">
-					<div className="flex">
-						{WHITE_KEYS.map((key, index) => {
+				<div className="relative mb-1.5 select-none">
+					<div className="flex border-y border-l border-border">
+						{WHITE_KEYS.map((key) => {
 							const pressed = active.has(key.id);
 							return (
 								<button
@@ -202,19 +202,16 @@ export function InteractivePiano() {
 									type="button"
 									aria-label={`${key.note} ${key.solfege}`}
 									className={cn(
-										"relative flex h-[168px] min-w-0 flex-1 flex-col items-center justify-end pb-2.5",
-										"border-r border-black/25 bg-white text-neutral-800",
-										"shadow-[0_5px_1px_rgba(32,32,32,0.2)] transition-[background-color,box-shadow,transform] duration-75 ease-out",
-										index === 0 && "rounded-bl-[5px]",
-										index === WHITE_KEYS.length - 1 &&
-											"rounded-br-[5px] border-r-transparent",
+										"relative z-0 flex h-42 min-w-0 flex-1 flex-col items-center justify-end pb-2.5",
+										"border-r border-border bg-transparent text-foreground",
+										"transition-[transform,background-color] duration-75 ease-out",
 										pressed
-											? "translate-y-[5px] bg-[#d8d8d8] shadow-[0_1px_rgba(32,32,32,0.2)]"
-											: "hover:bg-neutral-50",
+											? "z-1 translate-y-1.25 bg-foreground/8"
+											: "hover:bg-foreground/4",
 									)}
 									{...bindKey(key.id)}
 								>
-									<span className="font-mono text-[10px] font-medium text-neutral-400">
+									<span className="font-mono text-[10px] font-medium text-muted-foreground">
 										{key.key}
 									</span>
 									<span className="text-[13px] font-semibold leading-none">
@@ -224,6 +221,10 @@ export function InteractivePiano() {
 							);
 						})}
 					</div>
+					<div
+						aria-hidden
+						className="h-1.5 border-x border-b border-border diagonal-stripes"
+					/>
 					<div className="pointer-events-none absolute top-0 left-0 z-10 ml-[2.5%] flex w-[95%]">
 						{BLACK_SLOTS.map((slot, index) => {
 							if (!slot) {
@@ -249,16 +250,17 @@ export function InteractivePiano() {
 										type="button"
 										aria-label={`${slot.sharp} ${slot.flat}`}
 										className={cn(
-											"pointer-events-auto flex h-[100px] w-[80%] flex-col items-center justify-end rounded-b-[5px] pb-2",
-											"bg-black text-white shadow-[0_4px_1px_rgba(0,0,0,0.35)]",
-											"transition-[background-color,box-shadow,transform] duration-75 ease-out",
+											"pointer-events-auto relative flex h-25 w-[80%] flex-col items-center justify-end rounded-b-[5px] pb-2",
+											"border border-t-0 border-border bg-background text-foreground diagonal-stripes",
+											"after:pointer-events-none after:absolute after:-inset-x-px after:top-full after:h-1.5 after:rounded-b-[5px] after:border after:border-t-0 after:border-border after:diagonal-stripes",
+											"transition-[transform,background-color] duration-75 ease-out",
 											pressed
-												? "translate-y-[5px] bg-[#1a1a1a] shadow-[0_2px_rgba(0,0,0,0.55)]"
-												: "hover:bg-neutral-900",
+												? "translate-y-1.25 bg-muted after:h-px"
+												: "hover:bg-muted/80",
 										)}
 										{...bindKey(slot.id)}
 									>
-										<span className="font-mono text-[9px] font-medium text-white/55">
+										<span className="font-mono text-[9px] font-medium text-muted-foreground">
 											{slot.key}
 										</span>
 										<span className="text-[11px] font-semibold leading-[1.05]">
