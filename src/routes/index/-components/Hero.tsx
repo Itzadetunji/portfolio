@@ -1,14 +1,6 @@
-import { SealCheckIcon, SpeakerHighIcon } from "@phosphor-icons/react";
+import { SealCheckIcon } from "@phosphor-icons/react";
 import { HeroRole } from "./HeroRole";
 import { Section } from "./Section";
-
-function speakName() {
-	if (typeof window === "undefined" || !window.speechSynthesis) return;
-	window.speechSynthesis.cancel();
-	const utterance = new SpeechSynthesisUtterance("Ah deh toon jee");
-	utterance.rate = 0.9;
-	window.speechSynthesis.speak(utterance);
-}
 
 export function Hero() {
 	return (
@@ -35,14 +27,6 @@ export function Hero() {
 							className="size-5 shrink-0 text-sky-400"
 							aria-label="Verified"
 						/>
-						<button
-							type="button"
-							onClick={speakName}
-							aria-label="Pronounce Adetunji"
-							className="inline-flex size-7 shrink-0 items-center justify-center rounded-md text-muted-foreground hover:bg-muted hover:text-foreground"
-						>
-							<SpeakerHighIcon size={18} weight="regular" />
-						</button>
 					</div>
 					<HeroRole />
 				</div>
