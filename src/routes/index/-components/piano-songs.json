@@ -30,7 +30,8 @@
 				{ "key": "S", "beats": 1 },
 				{ "key": "D", "beats": 1 },
 				{ "key": "S", "beats": 1 },
-				{ "key": "A", "beats": 4 },
+				{ "key": "A", "beats": 2 },
+				{ "key": "K", "beats": 4 },
 				{ "key": null, "beats": 2 }
 			]
 		},
