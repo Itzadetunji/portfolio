@@ -86,6 +86,22 @@ const KEY_TO_NOTE: Record<string, NoteId> = {
 	u: "As3",
 };
 
+const NOTE_IDS: NoteId[] = [
+	"C3",
+	"Cs3",
+	"D3",
+	"Ds3",
+	"E3",
+	"F3",
+	"Fs3",
+	"G3",
+	"Gs3",
+	"A3",
+	"As3",
+	"B3",
+	"C4",
+];
+
 const SONGS = songBook.songs;
 
 type SongNote = (typeof SONGS)[number]["notes"][number];
@@ -113,47 +129,66 @@ export function InteractivePiano() {
 	const voices = useRef(new Map<NoteId, HTMLAudioElement>());
 	const hostRef = useRef<HTMLDivElement>(null);
 
-	useEffect(() => {
-		const host = hostRef.current;
-		if (!host) return;
-		const ids: NoteId[] = [
-			"C3",
-			"Cs3",
-			"D3",
-			"Ds3",
-			"E3",
-			"F3",
-			"Fs3",
-			"G3",
-			"Gs3",
-			"A3",
-			"As3",
-			"B3",
-			"C4",
-		];
-		for (const id of ids) {
-			const audio = new Audio(`/piano/${id}.mp3`);
-			audio.preload = "auto";
-			host.append(audio);
-			voices.current.set(id, audio);
-		}
-		return () => {
-			voices.current.clear();
-			host.replaceChildren();
-		};
+	const ensureVoice = useCallback((id: NoteId) => {
+		let audio = voices.current.get(id);
+		if (audio) return audio;
+		audio = new Audio(`/piano/${id}.mp3`);
+		audio.preload = "auto";
+		hostRef.current?.append(audio);
+		voices.current.set(id, audio);
+		return audio;
 	}, []);
 
-	const press = useCallback((id: NoteId) => {
-		if (activeRef.current.has(id)) return;
-		const next = new Set(activeRef.current);
-		next.add(id);
-		activeRef.current = next;
-		setActive(next);
-		const audio = voices.current.get(id);
-		if (!audio) return;
-		audio.currentTime = 0;
-		void audio.play().catch(() => {});
-	}, []);
+	const warmVoices = useCallback(() => {
+		for (const id of NOTE_IDS) ensureVoice(id);
+	}, [ensureVoice]);
+
+	useEffect(() => {
+		let idleId = 0;
+		let timeoutId = 0;
+		let cancelled = false;
+
+		const warm = () => {
+			if (!cancelled) warmVoices();
+		};
+
+		const schedule = () => {
+			if (typeof window.requestIdleCallback === "function") {
+				idleId = window.requestIdleCallback(warm, { timeout: 5000 });
+				return;
+			}
+			timeoutId = window.setTimeout(warm, 2000);
+		};
+
+		if (document.readyState === "complete") {
+			schedule();
+		} else {
+			window.addEventListener("load", schedule, { once: true });
+		}
+
+		return () => {
+			cancelled = true;
+			window.removeEventListener("load", schedule);
+			if (idleId) window.cancelIdleCallback(idleId);
+			if (timeoutId) window.clearTimeout(timeoutId);
+			voices.current.clear();
+			hostRef.current?.replaceChildren();
+		};
+	}, [warmVoices]);
+
+	const press = useCallback(
+		(id: NoteId) => {
+			if (activeRef.current.has(id)) return;
+			const next = new Set(activeRef.current);
+			next.add(id);
+			activeRef.current = next;
+			setActive(next);
+			const audio = ensureVoice(id);
+			audio.currentTime = 0;
+			void audio.play().catch(() => {});
+		},
+		[ensureVoice],
+	);
 
 	const release = useCallback((id: NoteId) => {
 		if (!activeRef.current.has(id)) return;
@@ -204,6 +239,7 @@ export function InteractivePiano() {
 
 	useEffect(() => {
 		if (!isPlaying) return;
+		warmVoices();
 		const song = SONGS.find((entry) => entry.id === songId);
 		if (!song) return;
 
@@ -256,7 +292,7 @@ export function InteractivePiano() {
 				release(held);
 			}
 		};
-	}, [isPlaying, songId, press, release]);
+	}, [isPlaying, songId, press, release, warmVoices]);
 
 	const bindKey = (id: NoteId) => ({
 		onPointerDown: (event: PointerEvent<HTMLButtonElement>) => {

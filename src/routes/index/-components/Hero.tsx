@@ -20,6 +20,8 @@ export function Hero() {
 						alt="Adetunji"
 						width={128}
 						height={128}
+						fetchPriority="high"
+						decoding="async"
 						className="size-24 shrink-0 rounded-full object-cover outline outline-white/10 sm:size-32"
 					/>
 				</div>

@@ -193,6 +193,8 @@ function ProjectPreview({ project }: { project: Project }) {
 								alt=""
 								width={1200}
 								height={630}
+								loading="lazy"
+								decoding="async"
 								className="absolute inset-x-0 top-0 h-[110%] w-full object-cover object-top transition-[height] duration-300 group-focus-visible:h-[115%] group-hover:h-[115%] motion-reduce:transition-none motion-reduce:group-focus-visible:h-[110%] motion-reduce:group-hover:h-[110%]"
 							/>
 						</div>

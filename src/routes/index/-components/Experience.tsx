@@ -49,6 +49,8 @@ function Logo({ item }: { item: ExperienceItem }) {
 				alt=""
 				width={40}
 				height={40}
+				loading="lazy"
+				decoding="async"
 				className="size-10 rounded-xl object-cover outline outline-white/10"
 			/>
 		);
