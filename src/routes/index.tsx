@@ -3,6 +3,7 @@ import { About } from "./index/-components/About";
 import { Activity } from "./index/-components/Activity";
 import { Experience } from "./index/-components/Experience";
 import { Hero } from "./index/-components/Hero";
+import { InteractivePiano } from "./index/-components/InteractivePiano";
 import { Projects } from "./index/-components/Projects";
 import { Quote } from "./index/-components/Quote";
 import { StripeDivider } from "./index/-components/Section";
@@ -14,6 +15,8 @@ export const Route = createFileRoute("/")({ component: Home });
 function Home() {
 	return (
 		<>
+			<InteractivePiano />
+			<StripeDivider />
 			<Hero />
 			<StripeDivider />
 			<About />
