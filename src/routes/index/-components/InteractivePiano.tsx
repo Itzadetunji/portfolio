@@ -1,10 +1,6 @@
 "use client";
 
-import {
-	MusicNotesIcon,
-	PauseIcon,
-	PlayIcon,
-} from "@phosphor-icons/react";
+import { MusicNotesIcon, PauseIcon, PlayIcon } from "@phosphor-icons/react";
 import { cn } from "cn";
 import {
 	type PointerEvent,
@@ -286,10 +282,10 @@ export function InteractivePiano() {
 
 	return (
 		<Section className="px-0">
-			<div className="px-3 py-5 sm:px-4">
+			<div className="px-3 sm:py-5 sm:px-4">
 				<div ref={hostRef} className="sr-only" aria-hidden />
 				<div className="relative mb-1.5 select-none">
-					<div className="absolute top-2 left-2 z-20">
+					<div className="absolute top-2 sm:left-2 z-20">
 						<DropdownMenu modal={false}>
 							<DropdownMenuTrigger asChild>
 								<Button
@@ -333,85 +329,90 @@ export function InteractivePiano() {
 							</DropdownMenuContent>
 						</DropdownMenu>
 					</div>
-					<div className="flex border-y border-l border-border">
-						{WHITE_KEYS.map((key) => {
-							const pressed = active.has(key.id);
-							return (
-								<button
-									key={key.id}
-									type="button"
-									aria-label={`${key.note} ${key.solfege}`}
-									className={cn(
-										"relative z-0 flex h-56.75 min-w-0 flex-1 flex-col items-center justify-end pb-2.5",
-										"border-r border-border bg-transparent text-foreground",
-										"transition-[transform,background-color] duration-75 ease-out",
-										pressed
-											? "z-1 translate-y-1.25 bg-foreground/8"
-											: "hover:bg-foreground/4",
-									)}
-									{...bindKey(key.id)}
-								>
-									<span className="pointer-events-none absolute inset-x-0 top-40.75 font-mono text-[10px] font-medium text-muted-foreground">
-										{key.key}
-									</span>
-									<span className="text-[13px] font-semibold leading-none">
-										{key.note}
-									</span>
-								</button>
-							);
-						})}
-					</div>
-					{/* <div
+					<p className="flex min-h-24 items-center justify-center py-10 text-center text-[15px] text-muted-foreground min-[480px]:hidden">
+						Check me on desktop for a surprise
+					</p>
+					<div className="hidden min-[480px]:block">
+						<div className="flex border-y border-l border-border">
+							{WHITE_KEYS.map((key) => {
+								const pressed = active.has(key.id);
+								return (
+									<button
+										key={key.id}
+										type="button"
+										aria-label={`${key.note} ${key.solfege}`}
+										className={cn(
+											"relative z-0 flex h-56.75 min-w-0 flex-1 flex-col items-center justify-end pb-2.5",
+											"border-r border-border bg-transparent text-foreground",
+											"transition-[transform,background-color] duration-75 ease-out",
+											pressed
+												? "z-1 translate-y-1.25 bg-foreground/8"
+												: "hover:bg-foreground/4",
+										)}
+										{...bindKey(key.id)}
+									>
+										<span className="pointer-events-none absolute inset-x-0 top-40.75 font-mono text-[10px] font-medium text-muted-foreground">
+											{key.key}
+										</span>
+										<span className="text-[13px] font-semibold leading-none">
+											{key.note}
+										</span>
+									</button>
+								);
+							})}
+						</div>
+						{/* <div
 						aria-hidden
 						className="h-1.5 border-x border-b border-border diagonal-stripes"
 					/> */}
-					<div className="pointer-events-none absolute top-0 left-0 z-10 ml-[2.5%] flex w-[95%]">
-						{BLACK_SLOTS.map((slot, index) => {
-							if (!slot) {
+						<div className="pointer-events-none absolute top-0 left-0 z-10 ml-[2.5%] flex w-[95%]">
+							{BLACK_SLOTS.map((slot, index) => {
+								if (!slot) {
+									return (
+										<div
+											key={index === 2 ? "gap-ef" : "gap-bc"}
+											className="min-w-0 flex-1"
+										/>
+									);
+								}
+								const pressed = active.has(slot.id);
 								return (
 									<div
-										key={index === 2 ? "gap-ef" : "gap-bc"}
-										className="min-w-0 flex-1"
-									/>
-								);
-							}
-							const pressed = active.has(slot.id);
-							return (
-								<div
-									key={slot.id}
-									className={cn(
-										"flex min-w-0 flex-1",
-										slot.align === "left" && "justify-start pl-0.5 -mr-0.5",
-										slot.align === "right" && "justify-end pr-0.5 -ml-0.5",
-										slot.align === "center" && "justify-center",
-									)}
-								>
-									<button
-										type="button"
-										aria-label={`${slot.sharp} ${slot.flat}`}
+										key={slot.id}
 										className={cn(
-											"pointer-events-auto relative flex h-33.75 w-[80%] flex-col items-center justify-end rounded-b-[5px] pb-2",
-											"border border-border bg-background text-foreground diagonal-stripes",
-											"after:pointer-events-none after:absolute after:-inset-x-px after:top-full after:h-1.5 after:rounded-b-[5px] after:border after:border-t-0 after:border-border after:diagonal-stripes",
-											"transition-[transform,background-color] duration-75 ease-out",
-											pressed
-												? "translate-y-1.25 bg-muted after:h-px"
-												: "hover:bg-muted/80",
+											"flex min-w-0 flex-1",
+											slot.align === "left" && "justify-start pl-0.5 -mr-0.5",
+											slot.align === "right" && "justify-end pr-0.5 -ml-0.5",
+											slot.align === "center" && "justify-center",
 										)}
-										{...bindKey(slot.id)}
 									>
-										<span className="font-mono text-[9px] font-medium text-muted-foreground">
-											{slot.key}
-										</span>
-										<span className="text-[11px] font-semibold leading-[1.05]">
-											{slot.sharp}
-											<br />
-											{slot.flat}
-										</span>
-									</button>
-								</div>
-							);
-						})}
+										<button
+											type="button"
+											aria-label={`${slot.sharp} ${slot.flat}`}
+											className={cn(
+												"pointer-events-auto relative flex h-33.75 w-[80%] flex-col items-center justify-end rounded-b-[5px] pb-2",
+												"border border-border bg-background text-foreground diagonal-stripes",
+												"after:pointer-events-none after:absolute after:-inset-x-px after:top-full after:h-1.5 after:rounded-b-[5px] after:border after:border-t-0 after:border-border after:diagonal-stripes",
+												"transition-[transform,background-color] duration-75 ease-out",
+												pressed
+													? "translate-y-1.25 bg-muted after:h-px"
+													: "hover:bg-muted/80",
+											)}
+											{...bindKey(slot.id)}
+										>
+											<span className="font-mono text-[9px] font-medium text-muted-foreground">
+												{slot.key}
+											</span>
+											<span className="text-[11px] font-semibold leading-[1.05]">
+												{slot.sharp}
+												<br />
+												{slot.flat}
+											</span>
+										</button>
+									</div>
+								);
+							})}
+						</div>
 					</div>
 				</div>
 			</div>
