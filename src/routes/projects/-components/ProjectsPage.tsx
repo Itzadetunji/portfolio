@@ -29,9 +29,7 @@ function EntryReveal({
 
 		const observer = new IntersectionObserver(
 			([entry]) => {
-				if (!entry.isIntersecting) return;
-				setEntered(true);
-				observer.disconnect();
+				setEntered(entry.isIntersecting);
 			},
 			{ threshold: 0.18, rootMargin: "0px 0px -8% 0px" },
 		);
