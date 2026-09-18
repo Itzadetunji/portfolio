@@ -2,11 +2,11 @@
 
 import { cn } from "cn";
 import {
+	type PointerEvent,
 	useCallback,
 	useEffect,
 	useRef,
 	useState,
-	type PointerEvent,
 } from "react";
 import { Section } from "./Section";
 
@@ -182,15 +182,11 @@ export function InteractivePiano() {
 
 	return (
 		<Section className="px-0">
-			<h2 className="border-b border-border px-4 py-2 text-xl font-medium tracking-tight">
-				InteractivePiano
-			</h2>
 			<div className="px-3 py-5 sm:px-4">
 				<div ref={hostRef} className="sr-only" aria-hidden />
 				<p className="mb-3 font-mono text-[11px] text-muted-foreground">
 					<span className="text-foreground">A S D F G H J K</span>
-					<span className="mx-2 text-border">·</span>
-					d r m f s l t d
+					<span className="mx-2 text-border">·</span>d r m f s l t d
 				</p>
 				<div className="relative mb-1.5 select-none">
 					<div className="flex border-y border-l border-border">
@@ -221,10 +217,10 @@ export function InteractivePiano() {
 							);
 						})}
 					</div>
-					<div
+					{/* <div
 						aria-hidden
 						className="h-1.5 border-x border-b border-border diagonal-stripes"
-					/>
+					/> */}
 					<div className="pointer-events-none absolute top-0 left-0 z-10 ml-[2.5%] flex w-[95%]">
 						{BLACK_SLOTS.map((slot, index) => {
 							if (!slot) {
@@ -251,7 +247,7 @@ export function InteractivePiano() {
 										aria-label={`${slot.sharp} ${slot.flat}`}
 										className={cn(
 											"pointer-events-auto relative flex h-25 w-[80%] flex-col items-center justify-end rounded-b-[5px] pb-2",
-											"border border-t-0 border-border bg-background text-foreground diagonal-stripes",
+											"border border-border bg-background text-foreground diagonal-stripes",
 											"after:pointer-events-none after:absolute after:-inset-x-px after:top-full after:h-1.5 after:rounded-b-[5px] after:border after:border-t-0 after:border-border after:diagonal-stripes",
 											"transition-[transform,background-color] duration-75 ease-out",
 											pressed
