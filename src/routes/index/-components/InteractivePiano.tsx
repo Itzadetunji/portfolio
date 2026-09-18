@@ -194,7 +194,7 @@ export function InteractivePiano() {
 									type="button"
 									aria-label={`${key.note} ${key.solfege}`}
 									className={cn(
-										"relative z-0 flex h-42 min-w-0 flex-1 flex-col items-center justify-end pb-2.5",
+										"relative z-0 flex h-56.75 min-w-0 flex-1 flex-col items-center justify-end pb-2.5",
 										"border-r border-border bg-transparent text-foreground",
 										"transition-[transform,background-color] duration-75 ease-out",
 										pressed
@@ -203,7 +203,7 @@ export function InteractivePiano() {
 									)}
 									{...bindKey(key.id)}
 								>
-									<span className="pointer-events-none absolute inset-x-0 top-[6.75rem] font-mono text-[10px] font-medium text-muted-foreground">
+									<span className="pointer-events-none absolute inset-x-0 top-40.75 font-mono text-[10px] font-medium text-muted-foreground">
 										{key.key}
 									</span>
 									<span className="text-[13px] font-semibold leading-none">
@@ -242,7 +242,7 @@ export function InteractivePiano() {
 										type="button"
 										aria-label={`${slot.sharp} ${slot.flat}`}
 										className={cn(
-											"pointer-events-auto relative flex h-25 w-[80%] flex-col items-center justify-end rounded-b-[5px] pb-2",
+											"pointer-events-auto relative flex h-33.75 w-[80%] flex-col items-center justify-end rounded-b-[5px] pb-2",
 											"border border-border bg-background text-foreground diagonal-stripes",
 											"after:pointer-events-none after:absolute after:-inset-x-px after:top-full after:h-1.5 after:rounded-b-[5px] after:border after:border-t-0 after:border-border after:diagonal-stripes",
 											"transition-[transform,background-color] duration-75 ease-out",
