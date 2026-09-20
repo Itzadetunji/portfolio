@@ -241,6 +241,52 @@ input[type="number"] {
 	}
 }
 
+.page-load-wipe {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  overflow: hidden;
+  pointer-events: none;
+  background: var(--background);
+}
+
+.page-load-stripes {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: flex;
+  width: max-content;
+  height: 280vmax;
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.page-load-line {
+  flex: none;
+  width: 1px;
+  height: 100%;
+  margin-right: 9px;
+  background: color-mix(in oklab, rgba(255, 255, 255, 0.278) 100%, transparent);
+  animation: page-load-pulse 2s ease-in-out infinite;
+  animation-delay: calc(var(--i) / var(--n) * -2s);
+}
+
+@keyframes page-load-pulse {
+  0%,
+  100% {
+    opacity: 0.18;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-load-line {
+    animation: none;
+    opacity: 0.4;
+  }
+}
+
 html.theme-wiping::view-transition-old(root),
 html.theme-wiping::view-transition-new(root) {
   animation: none;
