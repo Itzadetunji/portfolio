@@ -8,7 +8,7 @@ export function Hero() {
 			<div className="relative flex items-end">
 				<div className="border-r">
 					<img
-						src="https://github.com/itzadetunji.png"
+						src="/images/itzadetunji.webp"
 						alt="Adetunji"
 						width={128}
 						height={128}

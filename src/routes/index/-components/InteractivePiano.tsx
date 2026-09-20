@@ -20,7 +20,7 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from "#/components/ui/dropdown-menu";
-import songBook from "./piano-songs.json";
+import songBook from "../-data/piano-songs.json";
 import { Section } from "./Section";
 
 type NoteId =
