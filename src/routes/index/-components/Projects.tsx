@@ -4,8 +4,14 @@ import { ArrowRightIcon, GithubLogoIcon } from "@phosphor-icons/react";
 import { Link } from "@tanstack/react-router";
 import { createTimeline, utils } from "animejs";
 import { useEffect, useRef } from "react";
-import { TECH, type TechId } from "#/components/icons";
+import type { TechId } from "#/components/icons";
 import { EntryReveal } from "#/components/EntryReveal";
+import {
+	Tooltip,
+	TooltipContent,
+	TooltipProvider,
+	TooltipTrigger,
+} from "#/components/ui/tooltip";
 import { withUtm } from "#/lib/utm";
 import { Section } from "./Section";
 
@@ -81,26 +87,6 @@ export const PROJECTS: Project[] = [
 		stack: ["typescript", "nextjs", "tailwind", "pdflib"],
 	},
 ];
-
-const chip =
-	"inline-flex items-center gap-1 rounded-md border border-border bg-background px-1.5 py-0.5 text-xs font-medium text-foreground transition-colors hover:border-neutral-400 dark:hover:border-neutral-600";
-
-function TechChip({ id }: { id: TechId }) {
-	const tech = TECH[id];
-	const Icon = tech.icon;
-	const branded = tech.color !== "currentColor" && !tech.darkColor;
-
-	return (
-		<span className={chip}>
-			<Icon
-				aria-hidden
-				className={`size-3 shrink-0 ${tech.darkColor ? "text-black dark:text-neutral-200" : ""} ${tech.color === "currentColor" ? "text-muted-foreground" : ""}`}
-				style={branded ? { color: tech.color } : undefined}
-			/>
-			{tech.label}
-		</span>
-	);
-}
 
 function ViewProjectLink({ href }: { href: string }) {
 	const arrowRef = useRef<HTMLSpanElement>(null);
@@ -275,16 +261,22 @@ export function ProjectCard({ project }: { project: Project }) {
 					</a>
 				) : null}
 			</div>
-			<p className="truncate text-[13px] leading-snug text-muted-foreground">
-				{project.description}
-			</p>
-			<ul className="flex flex-wrap gap-1.5">
-				{project.stack.map((id) => (
-					<li key={id} className="flex">
-						<TechChip id={id} />
-					</li>
-				))}
-			</ul>
+			<TooltipProvider delayDuration={200}>
+				<Tooltip>
+					<TooltipTrigger asChild>
+						<p className="line-clamp-2 cursor-default text-[13px] leading-snug text-muted-foreground">
+							{project.description}
+						</p>
+					</TooltipTrigger>
+					<TooltipContent
+						side="top"
+						sideOffset={6}
+						className="max-w-sm text-pretty leading-snug"
+					>
+						{project.description}
+					</TooltipContent>
+				</Tooltip>
+			</TooltipProvider>
 			<ViewProjectLink href={withUtm(live)} />
 		</article>
 	);
