@@ -1,6 +1,16 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { seo } from "#/lib/seo";
 
-export const Route = createFileRoute("/contact")({ component: Contact });
+export const Route = createFileRoute("/contact")({
+	head: () =>
+		seo({
+			title: "Contact",
+			description:
+				"Get in touch with Adetunji — book a call or email hello@itzadetunji.com.",
+			path: "/contact",
+		}),
+	component: Contact,
+});
 
 function Contact() {
 	return (

@@ -16,6 +16,7 @@ import appCss from "../styles.css?url";
 import "lenis/dist/lenis.css";
 
 import type { QueryClient } from "@tanstack/react-query";
+import { iconLinks, SITE_NAME } from "#/lib/seo";
 
 interface MyRouterContext {
 	queryClient: QueryClient;
@@ -32,7 +33,17 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 				content: "width=device-width, initial-scale=1",
 			},
 			{
-				title: "TanStack Start Starter",
+				title: SITE_NAME,
+			},
+			{
+				name: "theme-color",
+				content: "#0a0a0a",
+				media: "(prefers-color-scheme: dark)",
+			},
+			{
+				name: "theme-color",
+				content: "#ffffff",
+				media: "(prefers-color-scheme: light)",
 			},
 		],
 		links: [
@@ -40,6 +51,7 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 				rel: "stylesheet",
 				href: appCss,
 			},
+			...iconLinks,
 		],
 	}),
 	shellComponent: RootDocument,
