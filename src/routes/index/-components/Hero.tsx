@@ -1,8 +1,14 @@
-import { SealCheckIcon } from "@phosphor-icons/react";
+import { EyeIcon, SealCheckIcon } from "@phosphor-icons/react";
 import { HeroRole } from "./HeroRole";
 import { Section } from "./Section";
 
-export function Hero() {
+const visitsFormatter = new Intl.NumberFormat("en", {
+	notation: "compact",
+	compactDisplay: "short",
+	maximumFractionDigits: 1,
+});
+
+export function Hero({ visits = 0 }: { visits?: number }) {
 	return (
 		<Section className="relative px-0">
 			<div className="relative flex items-end">
@@ -18,6 +24,19 @@ export function Hero() {
 					/>
 				</div>
 				<div className="min-w-0 flex-1">
+					<div className="flex items-center gap-2">
+						<EyeIcon
+							size={16}
+							weight="regular"
+							className="text-muted-foreground"
+						/>
+						<p
+							className="text-sm text-muted-foreground"
+							title={`${visits.toLocaleString("en")} visits`}
+						>
+							{visitsFormatter.format(visits)} visits
+						</p>
+					</div>
 					<div className="flex items-center gap-2 border-y">
 						<h1 className="truncate text-2xl font-semibold tracking-tight sm:text-3xl ">
 							Adetunji
