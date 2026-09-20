@@ -9,6 +9,7 @@ import { ReactLenis } from "lenis/react";
 
 import { Footer } from "#/components/Footer";
 import { Navbar } from "#/components/Navbar";
+import { VisitProvider } from "#/hooks/use-record-visit";
 import TanStackQueryDevtools from "../integrations/tanstack-query/devtools";
 import appCss from "../styles.css?url";
 import "lenis/dist/lenis.css";
@@ -50,20 +51,22 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 				<HeadContent />
 			</head>
 			<body className="flex min-h-dvh flex-col antialiased">
-				<ReactLenis
-					root
-					options={{
-						lerp: 0.1,
-						duration: 1.5,
-						smoothWheel: true,
-						anchors: true,
-					}}
-					className="flex min-h-dvh flex-col"
-				>
-					<Navbar />
-					<main className="flex min-h-0 flex-1 flex-col">{children}</main>
-					<Footer />
-				</ReactLenis>
+				<VisitProvider>
+					<ReactLenis
+						root
+						options={{
+							lerp: 0.1,
+							duration: 1.5,
+							smoothWheel: true,
+							anchors: true,
+						}}
+						className="flex min-h-dvh flex-col"
+					>
+						<Navbar />
+						<main className="flex min-h-0 flex-1 flex-col">{children}</main>
+						<Footer />
+					</ReactLenis>
+				</VisitProvider>
 				<TanStackDevtools
 					config={{
 						position: "bottom-right",

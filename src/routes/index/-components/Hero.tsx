@@ -1,4 +1,7 @@
+"use client";
+
 import { EyeIcon, SealCheckIcon } from "@phosphor-icons/react";
+import { useVisitCount } from "#/hooks/use-record-visit";
 import { HeroRole } from "./HeroRole";
 import { Section } from "./Section";
 
@@ -8,7 +11,8 @@ const visitsFormatter = new Intl.NumberFormat("en", {
 	maximumFractionDigits: 1,
 });
 
-export function Hero({ visits = 0 }: { visits?: number }) {
+export function Hero() {
+	const visits = useVisitCount();
 	return (
 		<Section className="relative px-0">
 			<div className="relative flex items-end">
