@@ -2,9 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { flushSync } from "react-dom";
-
-const DURATION = 1200;
-const EASING = "cubic-bezier(0.45, 0, 0.2, 1)";
+import { WIPE_DURATION, WIPE_EASING, WIPE_FROM_TOP_RIGHT } from "#/lib/wipe";
 
 type ThemeRocketTransitionProps = {
 	active: boolean;
@@ -58,12 +56,12 @@ export function ThemeRocketTransition({
 
 				clipAnim = document.documentElement.animate(
 					[
-						{ clipPath: "polygon(100% 0%, 100% 0%, 100% 0%)" },
-						{ clipPath: "polygon(100% 0%, -180% 0%, 100% 280%)" },
+						{ clipPath: WIPE_FROM_TOP_RIGHT[0] },
+						{ clipPath: WIPE_FROM_TOP_RIGHT[1] },
 					],
 					{
-						duration: DURATION,
-						easing: EASING,
+						duration: WIPE_DURATION,
+						easing: WIPE_EASING,
 						fill: "none",
 						pseudoElement: "::view-transition-new(root)",
 					},

@@ -206,9 +206,14 @@ input[type="number"] {
 	}
 
   html {
-    @apply font-sans overflow-x-hidden;
+    @apply font-sans overflow-x-hidden bg-background;
     scroll-behavior: smooth;
+    color-scheme: light;
 	}
+
+  html.dark {
+    color-scheme: dark;
+  }
 
 	body {
     @apply bg-background text-foreground;

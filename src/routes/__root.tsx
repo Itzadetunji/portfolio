@@ -9,6 +9,7 @@ import { ReactLenis } from "lenis/react";
 
 import { Footer } from "#/components/Footer";
 import { Navbar } from "#/components/Navbar";
+import { PageLoadWipe } from "#/components/PageLoadWipe";
 import { VisitProvider } from "#/hooks/use-record-visit";
 import TanStackQueryDevtools from "../integrations/tanstack-query/devtools";
 import appCss from "../styles.css?url";
@@ -48,9 +49,16 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 	return (
 		<html lang="en" className="dark">
 			<head>
+				<style
+					dangerouslySetInnerHTML={{
+						__html:
+							"html{background-color:oklch(1 0 0);color-scheme:light}html.dark,html.dark body{background-color:oklch(0.145 0 0);color-scheme:dark}",
+					}}
+				/>
 				<HeadContent />
 			</head>
 			<body className="flex min-h-dvh flex-col antialiased">
+				<PageLoadWipe />
 				<VisitProvider>
 					<ReactLenis
 						root
