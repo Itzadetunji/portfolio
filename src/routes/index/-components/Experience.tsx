@@ -77,20 +77,22 @@ export const EXPERIENCE: ExperienceItem[] = [
 function Logo({ item }: { item: ExperienceItem }) {
 	const initial = item.company.charAt(0).toUpperCase();
 	const frame =
-		"flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-white p-2";
+		"relative flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-md p-0.75 outline outline-black/10 dark:outline-white/10";
 
 	if (item.logo) {
 		return (
-			<div className={frame}>
-				<img
-					src={item.logo}
-					alt=""
-					width={40}
-					height={40}
-					loading="lazy"
-					decoding="async"
-					className="size-full object-contain"
-				/>
+			<div>
+				<div className={frame}>
+					<img
+						src={item.logo}
+						alt=""
+						width={40}
+						height={40}
+						loading="lazy"
+						decoding="async"
+						className="size-full object-contain select-none rounded-sm outline dark:bg-white outline-black/10 dark:outline-white/10 p-1"
+					/>
+				</div>
 			</div>
 		);
 	}
