@@ -28,7 +28,7 @@ export function About() {
 						<CalendarBlankIcon size={16} weight="regular" />
 						<p className="text-sm">Book a call</p>
 					</a>
-					<a href="mailto:itzadetunji1@gmail.com" className={actionBtn}>
+					<a href="mailto:hello@itzadetunji.com" className={actionBtn}>
 						<EnvelopeSimpleIcon size={16} weight="regular" />
 						<p className="text-sm">Send an email</p>
 					</a>

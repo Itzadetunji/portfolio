@@ -73,7 +73,7 @@ export function Socials() {
 					<TwitterLogoIcon size={16} weight="fill" />
 				</SocialButton>
 				<SocialButton
-					href="mailto:itzadetunji1@gmail.com"
+					href="mailto:hello@itzadetunji.com"
 					className="gap-2 px-2.5 py-1.5 h-fit"
 				>
 					<EnvelopeSimpleIcon size={16} weight="regular" />
