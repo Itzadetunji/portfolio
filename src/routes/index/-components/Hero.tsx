@@ -24,7 +24,7 @@ export function Hero({ visits = 0 }: { visits?: number }) {
 					/>
 				</div>
 				<div className="min-w-0 flex-1">
-					<div className="flex items-center gap-2">
+					<div className="flex items-center gap-2 justify-end w-full px-4 py-1">
 						<EyeIcon
 							size={16}
 							weight="regular"

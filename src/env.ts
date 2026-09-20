@@ -4,6 +4,8 @@ import { z } from 'zod'
 export const env = createEnv({
   server: {
     SERVER_URL: z.string().url().optional(),
+    TURSO_DATABASE_URL: z.string().min(1).optional(),
+    TURSO_AUTH_TOKEN: z.string().min(1).optional(),
   },
 
   /**
@@ -20,7 +22,16 @@ export const env = createEnv({
    * What object holds the environment variables at runtime. This is usually
    * `process.env` or `import.meta.env`.
    */
-  runtimeEnv: import.meta.env,
+  runtimeEnv: {
+    SERVER_URL: process.env.SERVER_URL ?? import.meta.env.SERVER_URL,
+    TURSO_DATABASE_URL:
+      process.env.TURSO_DATABASE_URL ?? import.meta.env.TURSO_DATABASE_URL,
+    TURSO_AUTH_TOKEN:
+      process.env.TURSO_AUTH_TOKEN ?? import.meta.env.TURSO_AUTH_TOKEN,
+    VITE_APP_TITLE: import.meta.env.VITE_APP_TITLE,
+  },
+
+  isServer: typeof window === 'undefined',
 
   /**
    * By default, this library will feed the environment variables directly to

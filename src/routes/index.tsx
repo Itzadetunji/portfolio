@@ -1,4 +1,5 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, getRouteApi } from "@tanstack/react-router";
+import { getVisitCount, recordVisit } from "#/lib/visits";
 import { About } from "./index/-components/About";
 import { Activity } from "./index/-components/Activity";
 import { Experience } from "./index/-components/Experience";
@@ -10,14 +11,25 @@ import { StripeDivider } from "./index/-components/Section";
 import { Skills } from "./index/-components/Skills";
 import { Socials } from "./index/-components/Socials";
 
-export const Route = createFileRoute("/")({ component: Home });
+export const Route = createFileRoute("/")({
+	loader: async ({ cause }) => {
+		const visits =
+			cause === "preload" ? await getVisitCount() : await recordVisit();
+		return { visits };
+	},
+	component: Home,
+});
+
+const homeRoute = getRouteApi("/");
 
 function Home() {
+	const { visits } = homeRoute.useLoaderData();
+
 	return (
 		<>
 			<InteractivePiano />
 			<StripeDivider />
-			<Hero />
+			<Hero visits={visits} />
 			<StripeDivider />
 			<About />
 			<StripeDivider />
