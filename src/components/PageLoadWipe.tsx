@@ -1,10 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { WIPE_DURATION, WIPE_EASING, WIPE_FROM_TOP_LEFT } from "#/lib/wipe";
-
-const LINE_COUNT = 220;
-const lineIndexes = Array.from({ length: LINE_COUNT }, (_, index) => index);
+import { LogoIcon } from "#/components/icons/logo-icon";
+import { WIPE_DURATION, WIPE_EASING, WIPE_FROM_BOTTOM_TIP } from "#/lib/wipe";
 
 function waitForWindowLoad() {
 	if (document.readyState === "complete") {
@@ -37,8 +35,8 @@ export function PageLoadWipe() {
 
 			wipe = overlayRef.current.animate(
 				[
-					{ clipPath: WIPE_FROM_TOP_LEFT[1] },
-					{ clipPath: WIPE_FROM_TOP_LEFT[0] },
+					{ clipPath: WIPE_FROM_BOTTOM_TIP[0] },
+					{ clipPath: WIPE_FROM_BOTTOM_TIP[1] },
 				],
 				{
 					duration: WIPE_DURATION,
@@ -62,18 +60,7 @@ export function PageLoadWipe() {
 
 	return (
 		<div ref={overlayRef} aria-hidden className="page-load-wipe">
-			<div
-				className="page-load-stripes"
-				style={{ ["--n" as string]: LINE_COUNT }}
-			>
-				{lineIndexes.map((index) => (
-					<span
-						key={index}
-						className="page-load-line"
-						style={{ ["--i" as string]: index }}
-					/>
-				))}
-			</div>
+			<LogoIcon className="page-load-logo size-16 text-foreground sm:size-20" />
 		</div>
 	);
 }

@@ -6,6 +6,7 @@ import { TailwindIcon } from "./tailwind-icon";
 import { TypeScriptIcon } from "./typescript-icon";
 import { ViteIcon } from "./vite-icon";
 
+export { LogoIcon } from "./logo-icon";
 export { NextjsIcon } from "./nextjs-icon";
 export { PdfLibIcon } from "./pdf-lib-icon";
 export { ReactIcon } from "./react-icon";

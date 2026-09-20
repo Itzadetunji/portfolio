@@ -15,3 +15,8 @@ export const WIPE_FROM_BOTTOM_LEFT = [
 	"polygon(0% 100%, 0% 100%, 0% 100%)",
 	"polygon(0% 100%, 280% 100%, 0% -180%)",
 ] as const;
+
+export const WIPE_FROM_BOTTOM_TIP = [
+	"polygon(0% 0%, 100% 0%, 100% 100%, 50% 100%, 0% 100%)",
+	"polygon(0% 0%, 100% 0%, 220% 130%, 50% -90%, -120% 130%)",
+] as const;

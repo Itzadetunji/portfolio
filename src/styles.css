@@ -245,45 +245,35 @@ input[type="number"] {
   position: fixed;
   inset: 0;
   z-index: 300;
+  display: grid;
+  place-items: center;
   overflow: hidden;
   pointer-events: none;
   background: var(--background);
 }
 
-.page-load-stripes {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  display: flex;
-  width: max-content;
-  height: 280vmax;
-  transform: translate(-50%, -50%) rotate(45deg);
+.page-load-wipe [data-logo-arrow] {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: page-load-logo-bob 1.1s ease-in-out infinite;
 }
 
-.page-load-line {
-  flex: none;
-  width: 1px;
-  height: 100%;
-  margin-right: 9px;
-  background: color-mix(in oklab, rgba(255, 255, 255, 0.278) 100%, transparent);
-  animation: page-load-pulse 2s ease-in-out infinite;
-  animation-delay: calc(var(--i) / var(--n) * -2s);
-}
-
-@keyframes page-load-pulse {
+@keyframes page-load-logo-bob {
   0%,
   100% {
-    opacity: 0.18;
+    transform: translateY(0);
   }
-  50% {
-    opacity: 1;
+  25% {
+    transform: translateY(-5px);
+  }
+  75% {
+    transform: translateY(4px);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .page-load-line {
+  .page-load-wipe [data-logo-arrow] {
     animation: none;
-    opacity: 0.4;
   }
 }
 
