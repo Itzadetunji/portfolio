@@ -36,18 +36,19 @@ export function About() {
 			</div>
 			<ul className="list-disc space-y-3 px-4 py-5 pl-9 text-[15px] leading-6 text-foreground marker:text-foreground">
 				<li>
-					I&apos;m Adetunji — a software engineer who cares about craft,
-					readable interfaces, and systems that hold up when things get messy.
+					I&apos;m Adetunji — a software engineer with a passiopn for building
+					products that not just works but communicates the feeling behind every
+					interaction.
 				</li>
 				<li>
 					I build products end to end with{" "}
-					<TechGroup>React, TypeScript and Node.js</TechGroup> — from data and
-					APIs through to the interface.
+					<TechGroup>React, TypeScript and Node</TechGroup> — from data and APIs
+					through to the interface.
 				</li>
 				<li>
 					On the backend I work with{" "}
-					<TechGroup>Express, PostgreSQL and Bun</TechGroup>, with a bias toward
-					strong validation, correctness and predictable failure handling.
+					<TechGroup>Node, PostgreSQL and Bun</TechGroup>, without compromising
+					on performance, scalability and maintainability.
 				</li>
 			</ul>
 		</Section>
