@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-label="Protomap">
+  <rect width="1200" height="630" fill="#07171c"/>
+  <g fill="none" stroke="#3ecfc0" stroke-width="1.5">
+    <circle cx="860" cy="210" r="18"/>
+    <circle cx="1020" cy="280" r="12"/>
+    <circle cx="940" cy="400" r="16"/>
+    <circle cx="760" cy="340" r="10"/>
+    <path d="M860 210 L1020 280 L940 400 L760 340 Z"/>
+  </g>
+  <text x="96" y="318" fill="#e8fffb" font-family="ui-sans-serif, system-ui, sans-serif" font-size="84" font-weight="700">Protomap</text>
+  <text x="96" y="376" fill="#8fd9d0" font-family="ui-sans-serif, system-ui, sans-serif" font-size="22">Interactive visual knowledge maps</text>
+</svg>

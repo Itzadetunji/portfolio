@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-label="Akanni Claw">
+  <rect width="1200" height="630" fill="#14110e"/>
+  <path d="M0 520 L280 390 L520 470 L760 300 L1200 430 V630 H0 Z" fill="#2a2118"/>
+  <text x="96" y="318" fill="#f2c14e" font-family="ui-sans-serif, system-ui, sans-serif" font-size="78" font-weight="700">Akanni Claw</text>
+  <text x="96" y="372" fill="#d9c4a0" font-family="ui-sans-serif, system-ui, sans-serif" font-size="22">Self-hosted personal AI assistant</text>
+</svg>
