@@ -2,7 +2,12 @@
 
 import { useEffect, useRef, useState } from "react";
 import { LogoIcon } from "#/components/icons/logo-icon";
-import { WIPE_DURATION, WIPE_EASING, WIPE_FROM_BOTTOM_TIP } from "#/lib/wipe";
+import {
+	WIPE_DURATION,
+	WIPE_EASING,
+	WIPE_FROM_BOTTOM_TIP,
+	WIPE_FROM_BOTTOM_TIP_EDGE,
+} from "#/lib/wipe";
 
 function waitForWindowLoad() {
 	if (document.readyState === "complete") {
@@ -15,12 +20,14 @@ function waitForWindowLoad() {
 }
 
 export function PageLoadWipe() {
-	const overlayRef = useRef<HTMLDivElement>(null);
+	const fillRef = useRef<HTMLDivElement>(null);
+	const edgeRef = useRef<HTMLDivElement>(null);
 	const [visible, setVisible] = useState(true);
 
 	useEffect(() => {
-		const overlay = overlayRef.current;
-		if (!overlay) return;
+		const fill = fillRef.current;
+		const edge = edgeRef.current;
+		if (!fill || !edge) return;
 
 		if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
 			void waitForWindowLoad().then(() => setVisible(false));
@@ -28,39 +35,45 @@ export function PageLoadWipe() {
 		}
 
 		let cancelled = false;
-		let wipe: Animation | undefined;
+		const wipes: Animation[] = [];
+
+		const playWipe = (
+			el: HTMLElement,
+			frames: readonly [string, string],
+		) =>
+			el.animate([{ clipPath: frames[0] }, { clipPath: frames[1] }], {
+				duration: WIPE_DURATION,
+				easing: WIPE_EASING,
+				fill: "forwards",
+			});
 
 		void waitForWindowLoad().then(() => {
-			if (cancelled || !overlayRef.current) return;
+			if (cancelled || !fillRef.current || !edgeRef.current) return;
 
-			wipe = overlayRef.current.animate(
-				[
-					{ clipPath: WIPE_FROM_BOTTOM_TIP[0] },
-					{ clipPath: WIPE_FROM_BOTTOM_TIP[1] },
-				],
-				{
-					duration: WIPE_DURATION,
-					easing: WIPE_EASING,
-					fill: "forwards",
-				},
+			wipes.push(
+				playWipe(fillRef.current, WIPE_FROM_BOTTOM_TIP),
+				playWipe(edgeRef.current, WIPE_FROM_BOTTOM_TIP_EDGE),
 			);
 
-			void wipe.finished.then(() => {
+			void wipes[0]?.finished.then(() => {
 				if (!cancelled) setVisible(false);
 			});
 		});
 
 		return () => {
 			cancelled = true;
-			wipe?.cancel();
+			for (const wipe of wipes) wipe.cancel();
 		};
 	}, []);
 
 	if (!visible) return null;
 
 	return (
-		<div ref={overlayRef} aria-hidden className="page-load-wipe">
-			<LogoIcon className="page-load-logo size-16 text-foreground sm:size-20" />
+		<div aria-hidden className="page-load-wipe">
+			<div ref={edgeRef} className="page-load-wipe-edge" />
+			<div ref={fillRef} className="page-load-wipe-fill">
+				<LogoIcon className="page-load-logo size-16 text-foreground sm:size-20" />
+			</div>
 		</div>
 	);
 }

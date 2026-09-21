@@ -245,11 +245,24 @@ input[type="number"] {
   position: fixed;
   inset: 0;
   z-index: 300;
-  display: grid;
-  place-items: center;
   overflow: hidden;
   pointer-events: none;
+}
+
+.page-load-wipe-fill,
+.page-load-wipe-edge {
+  position: absolute;
+  inset: 0;
+}
+
+.page-load-wipe-fill {
+  display: grid;
+  place-items: center;
   background: var(--background);
+}
+
+.page-load-wipe-edge {
+  background: color-mix(in oklab, var(--foreground) 42%, var(--background));
 }
 
 .page-load-wipe [data-logo-arrow] {
