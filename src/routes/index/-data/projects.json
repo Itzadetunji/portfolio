@@ -8,6 +8,13 @@
 			"repo": "https://github.com/Itzadetunji/hemline-frontend-vercel"
 		},
 		{
+			"name": "Talli",
+			"description": "Hackathon-built AI treasurer for Telegram: track spending, savings, and shared money across groups and channels so balances stay visible where the conversation already is.",
+			"image": "/projects/projects-7.webp",
+			"live": "https://talli.benlabtest.space/",
+			"repo": "https://github.com/Benrobo/talli"
+		},
+		{
 			"name": "Migranium",
 			"description": "AI-powered healthcare operations platform that sits alongside your EMR: scheduling, intake, queue management, messaging, and workflow automation so clinics cut wait times without ripping out existing systems.",
 			"image": "/projects/projects-2.webp",
@@ -18,13 +25,6 @@
 			"description": "Travel eSIM for 200+ destinations: buy and activate global data as a PWA, search countries and plans geospatially, and keep a Firebase admin chat panel so support can reply in real time.",
 			"image": "/projects/projects-3.webp",
 			"live": "https://eva.world/"
-		},
-		{
-			"name": "Talli",
-			"description": "Hackathon-built AI treasurer for Telegram: track spending, savings, and shared money across groups and channels so balances stay visible where the conversation already is.",
-			"image": "/projects/projects-7.webp",
-			"live": "https://talli.benlabtest.space/",
-			"repo": "https://github.com/Benrobo/talli"
 		},
 		{
 			"name": "SheyeOladejo",
