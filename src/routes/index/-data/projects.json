@@ -22,7 +22,7 @@
 		},
 		{
 			"name": "Talli",
-			"description": "Telegram Bot for tracking and managing money across groups and channels.",
+			"description": "Hackathon project:Telegram Bot for tracking and managing money across groups and channels.",
 			"image": "/projects/projects-7.webp"
 		},
 		{
@@ -48,6 +48,12 @@
 			"description": "HandsfreeSoccer is a soccer academy for young students who want to learn how to play soccer and improve their skills",
 			"image": "/projects/projects-8.webp",
 			"live": "https://handsfreesoccer.com/"
+		},
+		{
+			"name": "Genztechies",
+			"description": "Hackathon organizer: Genztechie is a community for young tech enthusiasts to learn and grow together",
+			"image": "/projects/projects-4.webp",
+			"live": "https://genztechies.com/"
 		},
 		{
 			"name": "ClipIt MacOS",
