@@ -9,55 +9,55 @@
 		},
 		{
 			"name": "Migranium",
-			"description": "MacOS app for clipping moments from gaming sessions that you forgot to click record",
+			"description": "AI-powered healthcare operations platform that sits alongside your EMR: scheduling, intake, queue management, messaging, and workflow automation so clinics cut wait times without ripping out existing systems.",
 			"image": "/projects/projects-2.webp",
-			"live": "https://clipit.vercel.app/"
+			"live": "https://migranium.com/"
 		},
-
 		{
 			"name": "Eva eSIM",
-			"description": "PWA for buying and activating global mobile data: geospatial country and destination search, plus a Firebase admin chat panel so support can reply in real time.",
+			"description": "Travel eSIM for 200+ destinations: buy and activate global data as a PWA, search countries and plans geospatially, and keep a Firebase admin chat panel so support can reply in real time.",
 			"image": "/projects/projects-3.webp",
 			"live": "https://eva.world/"
 		},
 		{
 			"name": "Talli",
-			"description": "Hackathon project:Telegram Bot for tracking and managing money across groups and channels.",
-			"image": "/projects/projects-7.webp"
+			"description": "Hackathon-built AI treasurer for Telegram: track spending, savings, and shared money across groups and channels so balances stay visible where the conversation already is.",
+			"image": "/projects/projects-7.webp",
+			"live": "https://talli.benlabtest.space/"
 		},
 		{
 			"name": "SheyeOladejo",
-			"description": "Website for a Nigerian fashion designer",
+			"description": "Commerce site for Nigerian luxury fashion designer Sheye Oladejo: collections, made-to-measure flow, and a storefront that carries the brand from Ile-Ife craft into a global online presence.",
 			"image": "/projects/projects-5.webp",
-			"live": "https://coverly.hng.tech/"
+			"live": "https://sheyeoladejo.com/"
 		},
 		{
 			"name": "ClipIt IOS",
-			"description": "IOS app for clipping moments from gaming sessions that you forgot to click record",
+			"description": "iOS app that clips the moments you meant to save from gaming sessions — even when you forgot to hit record — so highlight reels still make it out of the session.",
 			"image": "/projects/projects-6.webp",
 			"live": "https://clipit.vercel.app/"
 		},
 		{
 			"name": "Hadifinance",
-			"description": "Hadifinance is an african fintech platform aimed at retailer and wholesaler financing and inventory management",
+			"description": "African fintech for retailer and SME working capital: inventory financing, invoice discounting, and credit flows that help shops restock and grow without cash-flow stalls.",
 			"image": "/projects/projects-9.webp",
 			"live": "https://hadifinance.com/"
 		},
 		{
 			"name": "HandsfreeSoccer",
-			"description": "HandsfreeSoccer is a soccer academy for young students who want to learn how to play soccer and improve their skills",
+			"description": "Soccer academy site for Coach Omeiza’s youth programs in Allen, McKinney, Melissa, and Princeton — 1:1 and small-group training for ages 6–18, with booking and academy story front and center.",
 			"image": "/projects/projects-8.webp",
 			"live": "https://handsfreesoccer.com/"
 		},
 		{
 			"name": "Genztechies",
-			"description": "Hackathon organizer: Genztechie is a community for young tech enthusiasts to learn and grow together",
+			"description": "Community hub for African Gen-Z builders: connect developers, designers, and founders, then bridge the gap with hackathons, workshops, office tours, and mentorship.",
 			"image": "/projects/projects-4.webp",
 			"live": "https://genztechies.com/"
 		},
 		{
 			"name": "ClipIt MacOS",
-			"description": "MacOS app for clipping moments from gaming sessions that you forgot to click record",
+			"description": "macOS companion for ClipIt: pull highlight clips from gaming sessions you forgot to record, so the best moments still land on disk without babysitting a capture tool.",
 			"image": "/projects/projects-6.webp",
 			"live": "https://clipit.vercel.app/"
 		},
@@ -69,9 +69,10 @@
 		},
 		{
 			"name": "Protomap",
-			"description": "AI platform that turns an abstract idea into an interactive knowledge map, so you can explore and refine a topic as a living layout instead of a wall of notes.",
+			"description": "AI planning tool that turns an abstract product idea into an interactive knowledge map — features, flows, and docs on a living canvas instead of a wall of notes.",
 			"image": "/projects/projects-1.webp",
-			"repo": "https://github.com/Itzadetunji/proto-graph"
+			"repo": "https://github.com/Itzadetunji/proto-graph",
+			"live": "https://protomap.art/"
 		}
 	]
 }
