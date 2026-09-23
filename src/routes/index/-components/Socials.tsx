@@ -38,13 +38,6 @@ export function Socials() {
 					<FileTextIcon size={16} weight="regular" />
 					<p className="text-sm">Resume</p>
 				</SocialButton>
-				<Link
-					to="/contact"
-					aria-label="Contact"
-					className={cn(btn, "size-8 rounded-md")}
-				>
-					<PaperPlaneTiltIcon size={16} weight="regular" />
-				</Link>
 				<SocialButton
 					href={withUtm("https://github.com/itzadetunji")}
 					target="_blank"

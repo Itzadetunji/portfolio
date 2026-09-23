@@ -9,16 +9,46 @@ import { Section } from "./Section";
 const ARENA_HEIGHT = 320;
 const WALL = 80;
 
+/** Same bindings as the interactive piano — Skills only listens, no shared state. */
+const PIANO_KEYS = new Set([
+	"a",
+	"s",
+	"d",
+	"f",
+	"g",
+	"h",
+	"j",
+	"k",
+	"w",
+	"e",
+	"t",
+	"y",
+	"u",
+]);
+
 type DeviceMotionWithPermission = typeof DeviceMotionEvent & {
 	requestPermission?: () => Promise<PermissionState>;
 };
+
+function isTypingTarget(target: EventTarget | null) {
+	if (!(target instanceof HTMLElement)) return false;
+	const tag = target.tagName;
+	return (
+		tag === "INPUT" ||
+		tag === "TEXTAREA" ||
+		tag === "SELECT" ||
+		target.isContentEditable
+	);
+}
 
 export function Skills() {
 	const arenaRef = useRef<HTMLDivElement>(null);
 	const pillRefs = useRef<(HTMLSpanElement | null)[]>([]);
 	const bodiesRef = useRef<Matter.Body[]>([]);
 	const lastShakeAt = useRef(0);
-	const shakeRef = useRef<(intensity?: number) => void>(() => {});
+	const shakeRef = useRef<(intensity?: number, minGap?: number) => void>(
+		() => {},
+	);
 
 	useEffect(() => {
 		const arena = arenaRef.current;
@@ -34,11 +64,11 @@ export function Skills() {
 		let observer: IntersectionObserver | null = null;
 		let lastMotion = { x: 0, y: 0, z: 0 };
 
-		const shakeBodies = (intensity = 1) => {
+		const shakeBodies = (intensity = 1, minGap = 90) => {
 			const now = performance.now();
-			if (now - lastShakeAt.current < 90) return;
+			if (now - lastShakeAt.current < minGap) return;
 			lastShakeAt.current = now;
-			const force = Math.min(Math.max(intensity, 0.4), 2.8);
+			const force = Math.min(Math.max(intensity, 0.08), 2.8);
 			for (const body of bodiesRef.current) {
 				Matter.Body.setVelocity(body, {
 					x: (Math.random() - 0.5) * 14 * force,
@@ -51,6 +81,15 @@ export function Skills() {
 			}
 		};
 		shakeRef.current = shakeBodies;
+
+		const onPianoKey = (event: KeyboardEvent) => {
+			if (event.repeat || event.metaKey || event.ctrlKey || event.altKey)
+				return;
+			if (isTypingTarget(event.target)) return;
+			if (!PIANO_KEYS.has(event.key.toLowerCase())) return;
+			if (reducedMotion || !started) return;
+			shakeBodies(0.16, 36);
+		};
 
 		const stop = () => {
 			cancelAnimationFrame(frame);
@@ -194,9 +233,11 @@ export function Skills() {
 			{ threshold: 0.2 },
 		);
 		observer.observe(arena);
+		window.addEventListener("keydown", onPianoKey);
 
 		return () => {
 			observer?.disconnect();
+			window.removeEventListener("keydown", onPianoKey);
 			cleanupExtras();
 			stop();
 			bodiesRef.current = [];
