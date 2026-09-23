@@ -92,6 +92,9 @@ const KEY_TO_NOTE: Record<string, NoteId> = {
 	u: "As3",
 };
 
+/** Keyboard bindings shared with Skills (and anything else listening for piano play). */
+export const PIANO_KEYS = new Set(Object.keys(KEY_TO_NOTE));
+
 const NOTE_IDS: NoteId[] = [
 	"C3",
 	"Cs3",

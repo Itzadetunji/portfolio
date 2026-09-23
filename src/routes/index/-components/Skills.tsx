@@ -4,27 +4,12 @@ import Matter from "matter-js";
 import { useEffect, useRef } from "react";
 import { SKILLS } from "#/components/icons/skills";
 import { Button } from "#/components/ui/button";
+import { PIANO_KEYS } from "./InteractivePiano";
 import { Section } from "./Section";
 
 const ARENA_HEIGHT = 320;
 const WALL = 80;
-
-/** Same bindings as the interactive piano — Skills only listens, no shared state. */
-const PIANO_KEYS = new Set([
-	"a",
-	"s",
-	"d",
-	"f",
-	"g",
-	"h",
-	"j",
-	"k",
-	"w",
-	"e",
-	"t",
-	"y",
-	"u",
-]);
+const PIANO_SHAKE = 0.16;
 
 type DeviceMotionWithPermission = typeof DeviceMotionEvent & {
 	requestPermission?: () => Promise<PermissionState>;
@@ -82,13 +67,27 @@ export function Skills() {
 		};
 		shakeRef.current = shakeBodies;
 
-		const onPianoKey = (event: KeyboardEvent) => {
+		const heldPianoKeys = new Set<string>();
+
+		const onPianoKeyDown = (event: KeyboardEvent) => {
 			if (event.repeat || event.metaKey || event.ctrlKey || event.altKey)
 				return;
 			if (isTypingTarget(event.target)) return;
-			if (!PIANO_KEYS.has(event.key.toLowerCase())) return;
+			const key = event.key.toLowerCase();
+			if (!PIANO_KEYS.has(key) || heldPianoKeys.has(key)) return;
+			heldPianoKeys.add(key);
 			if (reducedMotion || !started) return;
-			shakeBodies(0.16, 36);
+			const intensity =
+				heldPianoKeys.size >= 2 ? PIANO_SHAKE * 2 : PIANO_SHAKE;
+			shakeBodies(intensity, 36);
+		};
+
+		const onPianoKeyUp = (event: KeyboardEvent) => {
+			heldPianoKeys.delete(event.key.toLowerCase());
+		};
+
+		const onWindowBlur = () => {
+			heldPianoKeys.clear();
 		};
 
 		const stop = () => {
@@ -233,11 +232,15 @@ export function Skills() {
 			{ threshold: 0.2 },
 		);
 		observer.observe(arena);
-		window.addEventListener("keydown", onPianoKey);
+		window.addEventListener("keydown", onPianoKeyDown);
+		window.addEventListener("keyup", onPianoKeyUp);
+		window.addEventListener("blur", onWindowBlur);
 
 		return () => {
 			observer?.disconnect();
-			window.removeEventListener("keydown", onPianoKey);
+			window.removeEventListener("keydown", onPianoKeyDown);
+			window.removeEventListener("keyup", onPianoKeyUp);
+			window.removeEventListener("blur", onWindowBlur);
 			cleanupExtras();
 			stop();
 			bodiesRef.current = [];
