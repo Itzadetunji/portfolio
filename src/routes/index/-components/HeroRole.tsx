@@ -6,7 +6,8 @@ import { type RefObject, useEffect, useRef } from "react";
 export const ROLES = [
 	"Software engineer.",
 	"Full-stack developer.",
-	"Interface craftsman.",
+	"Opensource contributor.",
+	"Single",
 ];
 
 const HOLD_MS = 2500;
