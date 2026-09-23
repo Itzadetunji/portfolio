@@ -1,7 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-label="Health Wrapped">
-  <rect width="1200" height="630" fill="#1a0d16"/>
-  <rect x="820" y="-40" width="220" height="720" transform="rotate(18 930 315)" fill="#f25c9a"/>
-  <rect x="980" y="-80" width="80" height="780" transform="rotate(18 1020 310)" fill="#7c3aed"/>
-  <text x="96" y="300" fill="#fff5f8" font-family="ui-sans-serif, system-ui, sans-serif" font-size="72" font-weight="800">Health Wrapped</text>
-  <text x="96" y="360" fill="#f5b4cc" font-family="ui-sans-serif, system-ui, sans-serif" font-size="22">Your year in Apple Health, recapped</text>
-</svg>

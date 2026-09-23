@@ -4,7 +4,6 @@ import { ArrowRightIcon, GithubLogoIcon } from "@phosphor-icons/react";
 import { Link } from "@tanstack/react-router";
 import { createTimeline, utils } from "animejs";
 import { useEffect, useRef } from "react";
-import type { TechId } from "#/components/icons";
 import { EntryReveal } from "#/components/EntryReveal";
 import {
 	Tooltip,
@@ -12,74 +11,20 @@ import {
 	TooltipProvider,
 	TooltipTrigger,
 } from "#/components/ui/tooltip";
+import { cn } from "#/lib/utils";
 import { withUtm } from "#/lib/utm";
+import PROJECTS_DATA from "../-data/projects.json";
 import { Section } from "./Section";
 
 export type Project = {
 	name: string;
 	description: string;
-	image: string;
-	href?: string;
+	image?: string;
 	live?: string;
 	repo?: string;
-	stack: TechId[];
 };
 
-export const PROJECTS: Project[] = [
-	{
-		name: "Coverly",
-		description:
-			"Full-stack app that reads a resume and job description through OpenAI, then writes a tailored cover letter so applications take less time from start to send.",
-		image: "/projects/coverly.svg",
-		href: "https://coverly.hng.tech/",
-		live: "https://coverly.hng.tech/",
-		stack: ["typescript", "react", "nextjs"],
-	},
-	{
-		name: "Eva eSIM",
-		description:
-			"PWA for buying and activating global mobile data: geospatial country and destination search, plus a Firebase admin chat panel so support can reply in real time.",
-		image: "/projects/eva-esim.png",
-		href: "https://eva.world/",
-		live: "https://eva.world/",
-		stack: ["typescript", "react", "tailwind"],
-	},
-	{
-		name: "Akanni Claw",
-		description:
-			"Self-hosted personal AI assistant on a VPS with OpenClaw — environment, runtime, and deployment owned end to end.",
-		image: "/projects/akanni-claw.svg",
-		stack: ["typescript"],
-	},
-	{
-		name: "Protomap",
-		description:
-			"AI platform that turns an abstract idea into an interactive knowledge map, so you can explore and refine a topic as a living layout instead of a wall of notes.",
-		image: "/projects/protomap.svg",
-		repo: "https://github.com/Itzadetunji/proto-graph",
-		stack: ["typescript", "react", "nextjs", "tailwind"],
-	},
-	{
-		name: "Hemline Studio",
-		description:
-			"Studio OS for fashion designers: client profiles, collections, measurements, and orders in one place so client details stop disappearing into chats and notebooks.",
-		image: "/projects/hemline.jpg",
-		href: "https://hemline-frontend.vercel.app/",
-		live: "https://hemline-frontend.vercel.app/",
-		repo: "https://github.com/Itzadetunji/hemline-frontend-vercel",
-		stack: ["typescript", "react", "tailwind"],
-	},
-	{
-		name: "Health Wrapped",
-		description:
-			"React Native app that turns a year of Apple HealthKit data into Wrapped-style animated recaps you can share, built to make fitness stats actually travel on social.",
-		image: "/projects/health-wrapped.svg",
-		href: "https://health-wrapped-support.vercel.app/",
-		live: "https://health-wrapped-support.vercel.app/",
-		repo: "https://github.com/Itzadetunji/health-wrapped",
-		stack: ["typescript", "react"],
-	},
-];
+export const PROJECTS: Project[] = PROJECTS_DATA.projects;
 
 function ViewProjectLink({ href }: { href: string }) {
 	const arrowRef = useRef<HTMLSpanElement>(null);
@@ -186,73 +131,71 @@ function ProjectHoverBackdrop() {
 }
 
 function ProjectPreview({ project }: { project: Project }) {
-	const live = project.live ?? project.href;
-	const previewClassName = "group block outline-none";
-	const preview = (
-			<div className="rounded-[10px] border border-border p-[4px]">
-				<div className="relative h-[200px] overflow-hidden rounded-[6px] border border-border bg-muted select-none">
-					<div
-						aria-hidden
-						className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-focus-visible:opacity-100 group-hover:opacity-100 motion-reduce:transition-none"
-					>
-						<ProjectHoverBackdrop />
-					</div>
-					<span className="absolute top-2 left-2 z-10 text-xs font-medium text-muted-foreground transition-all duration-300 group-focus-visible:left-1/2 group-focus-visible:-translate-x-1/2 group-focus-visible:text-black group-hover:left-1/2 group-hover:-translate-x-1/2 group-hover:text-black">
-						{project.name} Screen
-					</span>
-					<div className="absolute bottom-0 left-1/2 h-[75%] w-[80%] -translate-x-1/2 rounded-t-[6px] border border-b-0 border-border bg-background p-[2px] pb-0 transition-all duration-300 group-focus-visible:h-[70%] group-hover:h-[70%] motion-reduce:transition-none motion-reduce:group-focus-visible:h-[75%] motion-reduce:group-hover:h-[75%]">
-						<div className="relative h-full w-full overflow-hidden rounded-t-[4px]">
-							<img
-								src={project.image}
-								alt=""
-								width={1200}
-								height={630}
-								loading="lazy"
-								decoding="async"
-								className="absolute inset-x-0 top-0 h-[110%] w-full object-cover object-top transition-[height] duration-300 group-focus-visible:h-[115%] group-hover:h-[115%] motion-reduce:transition-none motion-reduce:group-focus-visible:h-[110%] motion-reduce:group-hover:h-[110%]"
-							/>
-						</div>
-					</div>
-				</div>
-			</div>
-	);
-
-	if (!live) {
-		return <div className={previewClassName}>{preview}</div>;
-	}
+	const live = project.live as string;
+	const image = project.image;
 
 	return (
 		<a
 			href={withUtm(live)}
 			target="_blank"
 			rel="noreferrer"
-			className={previewClassName}
+			className="group block outline-none"
 		>
-			{preview}
+			<div className="rounded-[10px] border border-border p-1">
+				<div className="relative h-50 overflow-hidden rounded-[6px] border border-border bg-muted select-none">
+					<div
+						aria-hidden
+						className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-focus-visible:opacity-100 group-hover:opacity-100 motion-reduce:transition-none"
+					>
+						<ProjectHoverBackdrop />
+					</div>
+					<span
+						className={cn(
+							"absolute top-2 left-2 z-10 text-xs font-medium text-muted-foreground transition-all duration-300 group-focus-visible:text-black group-hover:text-black",
+							image
+								? "group-focus-visible:left-1/2 group-focus-visible:-translate-x-1/2 group-hover:left-1/2 group-hover:-translate-x-1/2"
+								: "group-focus-visible:top-1/2 group-focus-visible:left-1/2 group-focus-visible:-translate-x-1/2 group-focus-visible:-translate-y-1/2 group-hover:top-1/2 group-hover:left-1/2 group-hover:-translate-x-1/2 group-hover:-translate-y-1/2",
+						)}
+					>
+						{project.name}
+					</span>
+					{image ? (
+						<div className="absolute bottom-0 left-1/2 h-[75%] w-[80%] -translate-x-1/2 rounded-t-md border border-b-0 border-border bg-background p-0.5 pb-0 transition-all duration-300 group-focus-visible:h-[70%] group-hover:h-[70%] motion-reduce:transition-none motion-reduce:group-focus-visible:h-[75%] motion-reduce:group-hover:h-[75%]">
+							<div className="relative h-full w-full overflow-hidden rounded-t-sm">
+								<img
+									src={image}
+									alt=""
+									width={1200}
+									height={630}
+									loading="lazy"
+									decoding="async"
+									className="absolute inset-x-0 top-0 h-[110%] w-full object-cover object-top transition-[height] duration-300 group-focus-visible:h-[115%] group-hover:h-[115%] motion-reduce:transition-none motion-reduce:group-focus-visible:h-[110%] motion-reduce:group-hover:h-[110%]"
+								/>
+							</div>
+						</div>
+					) : null}
+				</div>
+			</div>
 		</a>
 	);
 }
 
 export function ProjectCard({ project }: { project: Project }) {
-	const live = project.live ?? project.href;
+	const live = project.live as string;
 
 	return (
 		<article className="flex flex-col gap-2 p-4">
 			<ProjectPreview project={project} />
 			<div className="flex items-center justify-between gap-3">
 				<h3 className="min-w-0 truncate text-[15px] font-semibold leading-snug">
-					{live ? (
-						<a
-							href={withUtm(live)}
-							target="_blank"
-							rel="noreferrer"
-							className="transition-colors hover:text-primary"
-						>
-							{project.name}
-						</a>
-					) : (
-						project.name
-					)}
+					<a
+						href={withUtm(live)}
+						target="_blank"
+						rel="noreferrer"
+						className="transition-colors hover:text-primary"
+					>
+						{project.name}
+					</a>
 				</h3>
 				{project.repo ? (
 					<a
@@ -282,7 +225,7 @@ export function ProjectCard({ project }: { project: Project }) {
 					</TooltipContent>
 				</Tooltip>
 			</TooltipProvider>
-			{live ? <ViewProjectLink href={withUtm(live)} /> : null}
+			<ViewProjectLink href={withUtm(live)} />
 		</article>
 	);
 }

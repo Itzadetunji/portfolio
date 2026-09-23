@@ -1,0 +1,71 @@
+{
+	"projects": [
+		{
+			"name": "Hemline Studio",
+			"description": "Studio OS for fashion designers: client profiles, collections, measurements, and orders in one place so client details stop disappearing into chats and notebooks.",
+			"image": "/projects/projects-10.webp",
+			"live": "https://hemline-frontend.vercel.app/",
+			"repo": "https://github.com/Itzadetunji/hemline-frontend-vercel"
+		},
+		{
+			"name": "Migranium",
+			"description": "MacOS app for clipping moments from gaming sessions that you forgot to click record",
+			"image": "/projects/projects-2.webp",
+			"live": "https://clipit.vercel.app/"
+		},
+
+		{
+			"name": "Eva eSIM",
+			"description": "PWA for buying and activating global mobile data: geospatial country and destination search, plus a Firebase admin chat panel so support can reply in real time.",
+			"image": "/projects/projects-3.webp",
+			"live": "https://eva.world/"
+		},
+		{
+			"name": "Talli",
+			"description": "Telegram Bot for tracking and managing money across groups and channels.",
+			"image": "/projects/projects-7.webp"
+		},
+		{
+			"name": "SheyeOladejo",
+			"description": "Website for a Nigerian fashion designer",
+			"image": "/projects/projects-5.webp",
+			"live": "https://coverly.hng.tech/"
+		},
+		{
+			"name": "ClipIt IOS",
+			"description": "IOS app for clipping moments from gaming sessions that you forgot to click record",
+			"image": "/projects/projects-6.webp",
+			"live": "https://clipit.vercel.app/"
+		},
+		{
+			"name": "Hadifinance",
+			"description": "Hadifinance is an african fintech platform aimed at retailer and wholesaler financing and inventory management",
+			"image": "/projects/projects-9.webp",
+			"live": "https://hadifinance.com/"
+		},
+		{
+			"name": "HandsfreeSoccer",
+			"description": "HandsfreeSoccer is a soccer academy for young students who want to learn how to play soccer and improve their skills",
+			"image": "/projects/projects-8.webp",
+			"live": "https://handsfreesoccer.com/"
+		},
+		{
+			"name": "ClipIt MacOS",
+			"description": "MacOS app for clipping moments from gaming sessions that you forgot to click record",
+			"image": "/projects/projects-6.webp",
+			"live": "https://clipit.vercel.app/"
+		},
+		{
+			"name": "Health Wrapped",
+			"description": "React Native app that turns a year of Apple HealthKit data into Wrapped-style animated recaps you can share, built to make fitness stats actually travel on social.",
+			"live": "https://health-wrapped-support.vercel.app/",
+			"repo": "https://github.com/Itzadetunji/health-wrapped"
+		},
+		{
+			"name": "Protomap",
+			"description": "AI platform that turns an abstract idea into an interactive knowledge map, so you can explore and refine a topic as a living layout instead of a wall of notes.",
+			"image": "/projects/projects-1.webp",
+			"repo": "https://github.com/Itzadetunji/proto-graph"
+		}
+	]
+}
