@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { personJsonLd, seo, SITE_TITLE } from "#/lib/seo";
+import { personJsonLd, SITE_TITLE, seo } from "#/lib/seo";
 import { About } from "./index/-components/About";
 import { Activity } from "./index/-components/Activity";
 import { Experience } from "./index/-components/Experience";
@@ -36,7 +36,7 @@ function Home() {
 	return (
 		<StripeDividerSpotlightProvider>
 			<InteractivePiano />
-			<StripeDivider showToggle />
+			<StripeDivider />
 			<Hero />
 			<StripeDivider />
 			<About />

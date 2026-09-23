@@ -46,7 +46,7 @@ export function LineSpotlightOverlay({
 					<stop
 						className="dark:[stop-color:#fff]"
 						stopColor="var(--foreground)"
-						stopOpacity="0.85"
+						stopOpacity="0.4"
 					/>
 					<stop offset="1" stopColor="var(--foreground)" stopOpacity="0" />
 				</radialGradient>

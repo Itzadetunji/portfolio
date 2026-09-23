@@ -1,15 +1,13 @@
 import { Link } from "@tanstack/react-router";
 import { InteractiveDots } from "#/components/InteractiveDots";
+import { StripeDivider } from "#/routes/index/-components/Section";
 
 export function Footer() {
 	const year = new Date().getFullYear();
 
 	return (
 		<>
-			<div
-				aria-hidden
-				className="stripe-divider mx-auto h-(--separator-height) w-full max-w-3xl border-x"
-			/>
+			<StripeDivider />
 			<footer className="mx-auto w-full max-w-3xl border-x border-b px-4 py-8 text-center text-sm text-muted-foreground">
 				<p>
 					Designed and developed by{" "}

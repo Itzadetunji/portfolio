@@ -1,13 +1,8 @@
 "use client";
 
-import {
-	type RefObject,
-	useEffect,
-	useId,
-	useRef,
-} from "react";
+import { type RefObject, useEffect, useId, useRef } from "react";
 
-export const LINE_SPOTLIGHT_RADIUS = 140;
+export const LINE_SPOTLIGHT_RADIUS = 100;
 const SPOTLIGHT_SETTLE = 0.22;
 const OFFSCREEN = -9999;
 
