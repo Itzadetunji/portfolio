@@ -23,7 +23,8 @@
 			"name": "Talli",
 			"description": "Hackathon-built AI treasurer for Telegram: track spending, savings, and shared money across groups and channels so balances stay visible where the conversation already is.",
 			"image": "/projects/projects-7.webp",
-			"live": "https://talli.benlabtest.space/"
+			"live": "https://talli.benlabtest.space/",
+			"repo": "https://github.com/Benrobo/talli"
 		},
 		{
 			"name": "SheyeOladejo",
@@ -35,7 +36,8 @@
 			"name": "ClipIt IOS",
 			"description": "iOS app that clips the moments you meant to save from gaming sessions — even when you forgot to hit record — so highlight reels still make it out of the session.",
 			"image": "/projects/projects-6.webp",
-			"live": "https://clipit.vercel.app/"
+			"live": "https://clipit.vercel.app/",
+			"repo": "https://github.com/Itzadetunji/clip-it"
 		},
 		{
 			"name": "Hadifinance",
@@ -59,7 +61,8 @@
 			"name": "ClipIt MacOS",
 			"description": "macOS companion for ClipIt: pull highlight clips from gaming sessions you forgot to record, so the best moments still land on disk without babysitting a capture tool.",
 			"image": "/projects/projects-6.webp",
-			"live": "https://clipit.vercel.app/"
+			"live": "https://clipit.vercel.app/",
+			"repo": "https://github.com/Itzadetunji/clip-it-macos"
 		},
 		{
 			"name": "Health Wrapped",
