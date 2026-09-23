@@ -9,9 +9,11 @@ import {
 	useRef,
 	useState,
 } from "react";
+import { LineSpotlightFromHook } from "#/components/LineSpotlight";
 import { Button } from "#/components/ui/button";
 import {
 	DropdownMenu,
+	DropdownMenuCheckboxItem,
 	DropdownMenuContent,
 	DropdownMenuItem,
 	DropdownMenuLabel,
@@ -20,6 +22,10 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from "#/components/ui/dropdown-menu";
+import {
+	buildPianoSpotlightPath,
+	useLineSpotlight,
+} from "#/hooks/use-line-spotlight";
 import songBook from "../-data/piano-songs.json";
 import { Section } from "./Section";
 
@@ -121,6 +127,7 @@ export function InteractivePiano() {
 	const [active, setActive] = useState<Set<NoteId>>(new Set());
 	const [songId, setSongId] = useState(SONGS[0]?.id ?? "");
 	const [isPlaying, setIsPlaying] = useState(false);
+	const [spotlightEnabled, setSpotlightEnabled] = useState(true);
 	const activeRef = useRef(active);
 	activeRef.current = active;
 	const isPlayingRef = useRef(false);
@@ -128,6 +135,10 @@ export function InteractivePiano() {
 	const manualHoldRef = useRef(new Set<NoteId>());
 	const voices = useRef(new Map<NoteId, HTMLAudioElement>());
 	const hostRef = useRef<HTMLDivElement>(null);
+	const spotlight = useLineSpotlight({
+		enabled: spotlightEnabled,
+		buildPath: buildPianoSpotlightPath,
+	});
 
 	const ensureVoice = useCallback((id: NoteId) => {
 		let audio = voices.current.get(id);
@@ -350,6 +361,14 @@ export function InteractivePiano() {
 									)}
 									{isPlaying ? "Pause" : "Play"}
 								</DropdownMenuItem>
+								<DropdownMenuCheckboxItem
+									checked={spotlightEnabled}
+									onCheckedChange={(checked) =>
+										setSpotlightEnabled(checked === true)
+									}
+								>
+									Line spotlight
+								</DropdownMenuCheckboxItem>
 								<DropdownMenuSeparator />
 								<DropdownMenuLabel>Songs</DropdownMenuLabel>
 								<DropdownMenuRadioGroup
@@ -368,14 +387,25 @@ export function InteractivePiano() {
 					<p className="flex min-h-24 items-center justify-center py-10 text-center text-[15px] text-muted-foreground min-[480px]:hidden">
 						Check me on desktop for a surprise
 					</p>
-					<div className="hidden min-[480px]:block">
-						<div className="flex border-y border-l border-border">
+					<div
+						ref={spotlight.rootRef}
+						className="relative hidden min-[480px]:block"
+					>
+						<LineSpotlightFromHook
+							{...spotlight}
+							title="Piano line spotlight"
+						/>
+						<div
+							data-piano-whites
+							className="flex border-y border-l border-border"
+						>
 							{WHITE_KEYS.map((key) => {
 								const pressed = active.has(key.id);
 								return (
 									<button
 										key={key.id}
 										type="button"
+										data-piano-white
 										aria-label={`${key.note} ${key.solfege}`}
 										className={cn(
 											"relative z-0 flex h-56.75 min-w-0 flex-1 flex-col items-center justify-end pb-2.5",
@@ -397,10 +427,6 @@ export function InteractivePiano() {
 								);
 							})}
 						</div>
-						{/* <div
-						aria-hidden
-						className="h-1.5 border-x border-b border-border diagonal-stripes"
-					/> */}
 						<div className="pointer-events-none absolute top-0 left-0 z-10 ml-[2.5%] flex w-[95%]">
 							{BLACK_SLOTS.map((slot, index) => {
 								if (!slot) {
@@ -424,6 +450,7 @@ export function InteractivePiano() {
 									>
 										<button
 											type="button"
+											data-piano-black
 											aria-label={`${slot.sharp} ${slot.flat}`}
 											className={cn(
 												"pointer-events-auto relative flex h-33.75 w-[80%] flex-col items-center justify-end rounded-b-[5px] pb-2",

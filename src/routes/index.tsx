@@ -7,7 +7,10 @@ import { Hero } from "./index/-components/Hero";
 import { InteractivePiano } from "./index/-components/InteractivePiano";
 import { Projects } from "./index/-components/Projects";
 import { Quote } from "./index/-components/Quote";
-import { StripeDivider } from "./index/-components/Section";
+import {
+	StripeDivider,
+	StripeDividerSpotlightProvider,
+} from "./index/-components/Section";
 import { Skills } from "./index/-components/Skills";
 import { Socials } from "./index/-components/Socials";
 
@@ -31,9 +34,9 @@ export const Route = createFileRoute("/")({
 
 function Home() {
 	return (
-		<>
+		<StripeDividerSpotlightProvider>
 			<InteractivePiano />
-			<StripeDivider />
+			<StripeDivider showToggle />
 			<Hero />
 			<StripeDivider />
 			<About />
@@ -49,6 +52,6 @@ function Home() {
 			<Skills />
 			<StripeDivider />
 			<Quote />
-		</>
+		</StripeDividerSpotlightProvider>
 	);
 }
