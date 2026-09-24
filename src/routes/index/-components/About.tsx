@@ -36,7 +36,7 @@ export function About() {
 			</div>
 			<ul className="list-disc space-y-3 px-4 py-5 pl-9 text-[15px] leading-6 text-foreground marker:text-foreground">
 				<li>
-					I&apos;m Adetunji — a software engineer with a passiopn for building
+					I&apos;m Adetunji — a software engineer with a passion for building
 					products that not just works but communicates the feeling behind every
 					interaction.
 				</li>
