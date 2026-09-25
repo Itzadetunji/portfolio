@@ -16,7 +16,7 @@ export function Hero() {
 	return (
 		<Section className="relative px-0">
 			<div className="relative flex items-end">
-				<div className="border-r">
+				<div className="border-r p-0.5 ">
 					<img
 						src="/images/itzadetunji.webp"
 						alt="Adetunji"
