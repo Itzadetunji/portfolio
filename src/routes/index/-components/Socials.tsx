@@ -34,7 +34,12 @@ export function Socials() {
 				Socials
 			</h2>
 			<div className="flex flex-wrap items-center gap-2.5 px-4 py-4">
-				<SocialButton href="/resume.pdf" className="gap-2 px-2.5 py-1.5 h-fit">
+				<SocialButton
+					href="https://www.icloud.com/iclouddrive/0eebN3HnBUyV8azEZgVptl8Qw"
+					target="_blank"
+					rel="noreferrer"
+					className="gap-2 px-2.5 py-1.5 h-fit"
+				>
 					<FileTextIcon size={16} weight="regular" />
 					<p className="text-sm">Resume</p>
 				</SocialButton>
