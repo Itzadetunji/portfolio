@@ -57,7 +57,7 @@ export function Socials() {
 					<LinkedinLogoIcon size={16} weight="regular" />
 				</SocialButton>
 				<SocialButton
-					href={withUtm("https://x.com/itzadetunji")}
+					href={withUtm("https://x.com/itzadetunji1")}
 					target="_blank"
 					rel="noreferrer"
 					aria-label="X"
