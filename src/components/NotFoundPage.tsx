@@ -19,7 +19,7 @@ type FallingPill = {
 	spawnX: number;
 };
 
-const MAX_PILLS = 80;
+const MAX_PILLS = Infinity;
 const WALL = 80;
 const AUTO_GAP_MIN = 1000;
 const AUTO_GAP_MAX = 2000;
