@@ -95,9 +95,62 @@ function ViewProjectLink({ href }: { href: string }) {
 }
 
 function ProjectPreview({ project }: { project: Project }) {
-	const live = project.live as string;
+	const live = project.live;
 	const image = project.image;
 	const [active, setActive] = useState(false);
+
+	const preview = (
+		<div className="rounded-[10px] border border-border p-1">
+			<div className="relative h-50 overflow-hidden rounded-[6px] border border-border bg-muted select-none">
+				<div
+					aria-hidden
+					className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-focus-visible:opacity-100 group-hover:opacity-100 motion-reduce:transition-none"
+				>
+					<FloatingBlobs active={active} />
+				</div>
+				<span
+					className={cn(
+						"absolute top-2 left-2 z-10 text-xs font-medium text-muted-foreground transition-all duration-300 group-focus-visible:text-black group-hover:text-black",
+						image
+							? "group-focus-visible:left-1/2 group-focus-visible:-translate-x-1/2 group-hover:left-1/2 group-hover:-translate-x-1/2"
+							: "group-focus-visible:top-1/2 group-focus-visible:left-1/2 group-focus-visible:-translate-x-1/2 group-focus-visible:-translate-y-1/2 group-hover:top-1/2 group-hover:left-1/2 group-hover:-translate-x-1/2 group-hover:-translate-y-1/2 group-hover:text-xl",
+					)}
+				>
+					{project.name}
+				</span>
+				{image ? (
+					<div className="absolute bottom-0 left-1/2 h-[75%] w-[80%] -translate-x-1/2 rounded-t-md border border-b-0 border-border bg-background p-0.5 pb-0 transition-all duration-300 group-focus-visible:h-[70%] group-hover:h-[70%] motion-reduce:transition-none motion-reduce:group-focus-visible:h-[75%] motion-reduce:group-hover:h-[75%]">
+						<div className="relative h-full w-full overflow-hidden rounded-t-sm">
+							<img
+								src={image}
+								alt=""
+								width={1200}
+								height={630}
+								loading="lazy"
+								decoding="async"
+								className="absolute inset-x-0 top-0 h-[110%] w-full object-cover object-top transition-[height] duration-300 group-focus-visible:h-[115%] group-hover:h-[115%] motion-reduce:transition-none motion-reduce:group-focus-visible:h-[110%] motion-reduce:group-hover:h-[110%]"
+							/>
+						</div>
+					</div>
+				) : null}
+			</div>
+		</div>
+	);
+
+	const interaction = {
+		onMouseEnter: () => setActive(true),
+		onMouseLeave: () => setActive(false),
+		onFocus: () => setActive(true),
+		onBlur: () => setActive(false),
+	};
+
+	if (!live) {
+		return (
+			<div className="group block outline-none" {...interaction}>
+				{preview}
+			</div>
+		);
+	}
 
 	return (
 		<a
@@ -105,66 +158,33 @@ function ProjectPreview({ project }: { project: Project }) {
 			target="_blank"
 			rel="noreferrer"
 			className="group block outline-none"
-			onMouseEnter={() => setActive(true)}
-			onMouseLeave={() => setActive(false)}
-			onFocus={() => setActive(true)}
-			onBlur={() => setActive(false)}
+			{...interaction}
 		>
-			<div className="rounded-[10px] border border-border p-1">
-				<div className="relative h-50 overflow-hidden rounded-[6px] border border-border bg-muted select-none">
-					<div
-						aria-hidden
-						className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-focus-visible:opacity-100 group-hover:opacity-100 motion-reduce:transition-none"
-					>
-						<FloatingBlobs active={active} />
-					</div>
-					<span
-						className={cn(
-							"absolute top-2 left-2 z-10 text-xs font-medium text-muted-foreground transition-all duration-300 group-focus-visible:text-black group-hover:text-black",
-							image
-								? "group-focus-visible:left-1/2 group-focus-visible:-translate-x-1/2 group-hover:left-1/2 group-hover:-translate-x-1/2"
-								: "group-focus-visible:top-1/2 group-focus-visible:left-1/2 group-focus-visible:-translate-x-1/2 group-focus-visible:-translate-y-1/2 group-hover:top-1/2 group-hover:left-1/2 group-hover:-translate-x-1/2 group-hover:-translate-y-1/2",
-						)}
-					>
-						{project.name}
-					</span>
-					{image ? (
-						<div className="absolute bottom-0 left-1/2 h-[75%] w-[80%] -translate-x-1/2 rounded-t-md border border-b-0 border-border bg-background p-0.5 pb-0 transition-all duration-300 group-focus-visible:h-[70%] group-hover:h-[70%] motion-reduce:transition-none motion-reduce:group-focus-visible:h-[75%] motion-reduce:group-hover:h-[75%]">
-							<div className="relative h-full w-full overflow-hidden rounded-t-sm">
-								<img
-									src={image}
-									alt=""
-									width={1200}
-									height={630}
-									loading="lazy"
-									decoding="async"
-									className="absolute inset-x-0 top-0 h-[110%] w-full object-cover object-top transition-[height] duration-300 group-focus-visible:h-[115%] group-hover:h-[115%] motion-reduce:transition-none motion-reduce:group-focus-visible:h-[110%] motion-reduce:group-hover:h-[110%]"
-								/>
-							</div>
-						</div>
-					) : null}
-				</div>
-			</div>
+			{preview}
 		</a>
 	);
 }
 
 export function ProjectCard({ project }: { project: Project }) {
-	const live = project.live as string;
+	const live = project.live;
 
 	return (
 		<article className="flex flex-col gap-2 p-4">
 			<ProjectPreview project={project} />
 			<div className="flex items-center justify-between gap-3">
 				<h3 className="min-w-0 truncate text-[15px] font-semibold leading-snug">
-					<a
-						href={withUtm(live)}
-						target="_blank"
-						rel="noreferrer"
-						className="transition-colors hover:text-primary"
-					>
-						{project.name}
-					</a>
+					{live ? (
+						<a
+							href={withUtm(live)}
+							target="_blank"
+							rel="noreferrer"
+							className="transition-colors hover:text-primary"
+						>
+							{project.name}
+						</a>
+					) : (
+						project.name
+					)}
 				</h3>
 				{project.repo ? (
 					<a
@@ -194,7 +214,7 @@ export function ProjectCard({ project }: { project: Project }) {
 					</TooltipContent>
 				</Tooltip>
 			</TooltipProvider>
-			<ViewProjectLink href={withUtm(live)} />
+			{live ? <ViewProjectLink href={withUtm(live)} /> : null}
 		</article>
 	);
 }

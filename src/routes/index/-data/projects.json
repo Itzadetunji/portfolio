@@ -76,6 +76,10 @@
 			"image": "/projects/projects-1.webp",
 			"repo": "https://github.com/Itzadetunji/proto-graph",
 			"live": "https://protomap.art/"
+		},
+		{
+			"name": "Coverly",
+			"description": "Full-stack app that reads a resume and job description through OpenAI, then writes a tailored cover letter so applications take less time from start to send."
 		}
 	]
 }
