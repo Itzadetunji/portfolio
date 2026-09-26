@@ -1,5 +1,7 @@
 "use client";
 
+import { ProhibitIcon } from "@phosphor-icons/react";
+import { Link, useRouter } from "@tanstack/react-router";
 import { useEffect, useRef } from "react";
 
 const GAP = 12;
@@ -18,6 +20,7 @@ type Ripple = { x: number; y: number; started: number };
 
 export function InteractiveDots() {
 	const canvasRef = useRef<HTMLCanvasElement>(null);
+	const router = useRouter();
 
 	useEffect(() => {
 		const canvas = canvasRef.current;
@@ -161,10 +164,19 @@ export function InteractiveDots() {
 	}, []);
 
 	return (
-		<canvas
-			ref={canvasRef}
-			aria-hidden
-			className="block h-42 w-full cursor-crosshair touch-none text-muted-foreground/45"
-		/>
+		<div className="relative">
+			<canvas
+				ref={canvasRef}
+				aria-hidden
+				className="block h-42 w-full cursor-crosshair touch-none text-muted-foreground/45"
+			/>
+			<Link
+				to="/hire"
+				aria-label="Go somewhere unknown"
+				className="absolute top-1/2 left-1/2 z-10 flex size-10 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full text-muted-foreground/70 opacity-0 transition-opacity ease-in-out hover:opacity-100 hover:text-foreground cursor-pointer"
+			>
+				<ProhibitIcon className="size-5" weight="regular" aria-hidden />
+			</Link>
+		</div>
 	);
 }
