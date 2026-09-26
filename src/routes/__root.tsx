@@ -5,11 +5,10 @@ import {
 	Scripts,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
-import { ReactLenis } from "lenis/react";
 
-import { Footer } from "#/components/Footer";
-import { Navbar } from "#/components/Navbar";
+import { NotFoundPage } from "#/components/NotFoundPage";
 import { PageLoadWipe } from "#/components/PageLoadWipe";
+import { SiteChrome } from "#/components/SiteChrome";
 import { VisitProvider } from "#/hooks/use-record-visit";
 import TanStackQueryDevtools from "../integrations/tanstack-query/devtools";
 import appCss from "../styles.css?url";
@@ -54,6 +53,7 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 			...iconLinks,
 		],
 	}),
+	notFoundComponent: NotFoundPage,
 	shellComponent: RootDocument,
 });
 
@@ -72,20 +72,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 			<body className="flex min-h-dvh flex-col antialiased">
 				<PageLoadWipe />
 				<VisitProvider>
-					<ReactLenis
-						root
-						options={{
-							lerp: 0.1,
-							duration: 1.5,
-							smoothWheel: true,
-							anchors: true,
-						}}
-						className="flex min-h-dvh flex-col"
-					>
-						<Navbar />
-						<main className="flex min-h-0 flex-1 flex-col">{children}</main>
-						<Footer />
-					</ReactLenis>
+					<SiteChrome>{children}</SiteChrome>
 				</VisitProvider>
 				<TanStackDevtools
 					config={{
