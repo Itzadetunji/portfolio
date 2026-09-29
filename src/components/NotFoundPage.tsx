@@ -12,6 +12,7 @@ import {
 } from "react";
 import { SKILLS } from "#/components/icons/skills";
 import { setHideSiteFooter } from "#/lib/site-chrome";
+import { withUtm } from "#/lib/utm";
 
 type FallingPill = {
 	id: string;
@@ -344,13 +345,24 @@ export function NotFoundPage() {
 					Nothing Here, <br />
 					Let me Fill It Up For You
 				</h1>
-				<Link
-					to="/"
-					data-ui
-					className="pointer-events-auto mt-8 inline-flex items-center rounded-full border border-border bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-muted"
-				>
-					Back home
-				</Link>
+				<div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+					<Link
+						to="/"
+						data-ui
+						className="pointer-events-auto inline-flex items-center rounded-full border border-border bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-muted"
+					>
+						Go back home
+					</Link>
+					<a
+						href={withUtm("https://calendly.com/itzadetunji")}
+						target="_blank"
+						rel="noreferrer"
+						data-ui
+						className="pointer-events-auto inline-flex items-center rounded-full border border-foreground bg-foreground px-4 py-2 text-sm font-medium text-background transition-opacity hover:opacity-90"
+					>
+						Let&apos;s talk
+					</a>
+				</div>
 			</div>
 		</div>
 	);

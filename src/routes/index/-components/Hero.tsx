@@ -1,6 +1,7 @@
 "use client";
 
 import { EyeIcon, SealCheckIcon } from "@phosphor-icons/react";
+import { Link } from "@tanstack/react-router";
 import { useVisitCount } from "#/hooks/use-record-visit";
 import { HeroRole } from "./HeroRole";
 import { Section } from "./Section";
@@ -27,19 +28,27 @@ export function Hero() {
 						className="size-24 shrink-0 rounded-full object-cover outline outline-white/10 sm:size-32"
 					/>
 				</div>
-				<div className="min-w-0 flex-1">
-					<div className="flex items-center gap-2 justify-end w-full px-4 py-1">
-						<EyeIcon
-							size={16}
-							weight="regular"
-							className="text-muted-foreground"
-						/>
-						<p
-							className="text-sm text-muted-foreground"
-							title={`${visits.toLocaleString("en")} visits`}
+				<div className="min-w-0 flex-1 group">
+					<div className="flex items-center justify-between">
+						<Link
+							to="/not-found"
+							className="text-sm text-muted-foreground opacity-0 transition-[opacity,color] duration-300 ease-in-out group-hover:opacity-100 hover:text-foreground focus-visible:opacity-100"
 						>
-							{visitsFormatter.format(visits)} visits
-						</p>
+							/404
+						</Link>
+						<div className="flex items-center gap-2 justify-end w-full px-4 py-1">
+							<EyeIcon
+								size={16}
+								weight="regular"
+								className="text-muted-foreground"
+							/>
+							<p
+								className="text-sm text-muted-foreground"
+								title={`${visits.toLocaleString("en")} visits`}
+							>
+								{visitsFormatter.format(visits)} visits
+							</p>
+						</div>
 					</div>
 					<div className="flex items-center gap-2 border-y">
 						<h1 className="truncate text-2xl font-semibold tracking-tight sm:text-3xl ">
