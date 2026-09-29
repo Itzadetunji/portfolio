@@ -308,25 +308,65 @@ export function InteractivePiano() {
 		};
 	}, [isPlaying, songId, press, release, warmVoices]);
 
+	const slidesRef = useRef(new Map<number, NoteId | null>());
+
+	const setSlideNote = useCallback(
+		(pointerId: number, next: NoteId | null) => {
+			const slides = slidesRef.current;
+			const prev = slides.get(pointerId) ?? null;
+			if (prev === next) return;
+			slides.set(pointerId, next);
+			if (prev && ![...slides.values()].includes(prev)) {
+				manualHoldRef.current.delete(prev);
+				release(prev);
+			}
+			if (next) {
+				manualHoldRef.current.add(next);
+				press(next);
+			}
+		},
+		[press, release],
+	);
+
+	useEffect(() => {
+		const noteAt = (x: number, y: number) => {
+			const el = document
+				.elementFromPoint(x, y)
+				?.closest<HTMLElement>("[data-note]");
+			return (el?.dataset.note as NoteId | undefined) ?? null;
+		};
+
+		const onMove = (event: globalThis.PointerEvent) => {
+			if (!slidesRef.current.has(event.pointerId)) return;
+			setSlideNote(event.pointerId, noteAt(event.clientX, event.clientY));
+		};
+
+		const onEnd = (event: globalThis.PointerEvent) => {
+			if (!slidesRef.current.has(event.pointerId)) return;
+			setSlideNote(event.pointerId, null);
+			slidesRef.current.delete(event.pointerId);
+		};
+
+		window.addEventListener("pointermove", onMove);
+		window.addEventListener("pointerup", onEnd);
+		window.addEventListener("pointercancel", onEnd);
+		return () => {
+			window.removeEventListener("pointermove", onMove);
+			window.removeEventListener("pointerup", onEnd);
+			window.removeEventListener("pointercancel", onEnd);
+		};
+	}, [setSlideNote]);
+
 	const bindKey = (id: NoteId) => ({
+		"data-note": id,
 		onPointerDown: (event: PointerEvent<HTMLButtonElement>) => {
+			if (event.button !== 0) return;
 			event.preventDefault();
-			event.currentTarget.setPointerCapture(event.pointerId);
+			if (event.currentTarget.hasPointerCapture(event.pointerId)) {
+				event.currentTarget.releasePointerCapture(event.pointerId);
+			}
 			stopAutoplay();
-			manualHoldRef.current.add(id);
-			press(id);
-		},
-		onPointerUp: () => {
-			manualHoldRef.current.delete(id);
-			release(id);
-		},
-		onPointerCancel: () => {
-			manualHoldRef.current.delete(id);
-			release(id);
-		},
-		onLostPointerCapture: () => {
-			manualHoldRef.current.delete(id);
-			release(id);
+			setSlideNote(event.pointerId, id);
 		},
 	});
 
@@ -392,7 +432,7 @@ export function InteractivePiano() {
 					</p>
 					<div
 						ref={spotlight.rootRef}
-						className="relative hidden min-[480px]:block"
+						className="relative hidden touch-none min-[480px]:block"
 					>
 						<LineSpotlightFromHook
 							{...spotlight}

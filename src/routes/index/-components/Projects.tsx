@@ -214,7 +214,7 @@ export function ProjectCard({ project }: { project: Project }) {
 					</TooltipContent>
 				</Tooltip>
 			</TooltipProvider>
-			{live ? <ViewProjectLink href={withUtm(live)} /> : null}
+			{live ? <ViewProjectLink href={withUtm(live) ?? live} /> : null}
 		</article>
 	);
 }
