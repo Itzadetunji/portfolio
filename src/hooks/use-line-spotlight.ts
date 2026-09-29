@@ -154,20 +154,35 @@ export function buildPianoSpotlightPath(root: HTMLElement) {
 	const w = whiteBox.width;
 	const h = whiteBox.height;
 
+	const blacks = [...blackKeys].map((key) => {
+		const box = key.getBoundingClientRect();
+		return {
+			left: box.left - rootBox.left,
+			top: box.top - rootBox.top,
+			width: box.width,
+			height: box.height + BLACK_FOOT,
+		};
+	});
+
 	let d = `M${x} ${y}H${x + w}V${y + h}H${x}Z`;
 	for (let i = 0; i < whiteKeys.length - 1; i++) {
 		const keyBox = whiteKeys[i].getBoundingClientRect();
 		const vx = keyBox.right - rootBox.left;
-		d += `M${vx} ${y}V${y + h}`;
+		let startY = y;
+		for (const black of blacks) {
+			if (vx > black.left && vx < black.left + black.width) {
+				startY = Math.max(startY, black.top + black.height);
+			}
+		}
+		d += `M${vx} ${startY}V${y + h}`;
 	}
 
-	for (const key of blackKeys) {
-		const box = key.getBoundingClientRect();
+	for (const black of blacks) {
 		d += roundedBottomRect(
-			box.left - rootBox.left,
-			box.top - rootBox.top,
-			box.width,
-			box.height + BLACK_FOOT,
+			black.left,
+			black.top,
+			black.width,
+			black.height,
 			BLACK_RADIUS,
 		);
 	}
