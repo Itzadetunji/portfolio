@@ -40,7 +40,7 @@ export function About() {
 					products that work well and feel right
 				</li>
 				<li>
-					I work end to end - from APIs and data teo polished interfaces - with{" "}
+					I work end to end - from APIs and data to polished interfaces - with{" "}
 					<TechGroup>React, TypeScript and Node</TechGroup>.
 				</li>
 				<li>
