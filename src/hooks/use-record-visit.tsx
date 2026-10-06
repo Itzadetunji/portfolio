@@ -1,58 +1,23 @@
 "use client";
 
-import {
-	createContext,
-	useContext,
-	useEffect,
-	useState,
-	type ReactNode,
-} from "react";
-import { getVisitCount, recordVisit } from "#/lib/visits";
+import { useCounter, useGetCounts } from "@itzadetunji/counter";
+import { createContext, useContext, type ReactNode } from "react";
+
+const COUNTER_APP_ID = "4dd5-c102";
 
 const VisitsContext = createContext(0);
 
-const VISIT_RECORDED_KEY = "itzadetunji:visit-recorded";
-
-/** In-memory guard for React Strict Mode double-mount in the same load. */
-let hasRecordedVisit = false;
-
-function hasRecordedInBrowser() {
-	try {
-		return localStorage.getItem(VISIT_RECORDED_KEY) === "1";
-	} catch {
-		return false;
-	}
-}
-
-function markRecordedInBrowser() {
-	try {
-		localStorage.setItem(VISIT_RECORDED_KEY, "1");
-	} catch {
-		// Private mode / blocked storage — in-memory guard still applies this load.
-	}
-}
-
-export function useRecordVisit() {
-	const [visits, setVisits] = useState(0);
-
-	useEffect(() => {
-		if (hasRecordedVisit || hasRecordedInBrowser()) {
-			void getVisitCount().then(setVisits);
-			return;
-		}
-
-		hasRecordedVisit = true;
-		markRecordedInBrowser();
-		void recordVisit().then(setVisits);
-	}, []);
-
-	return visits;
-}
-
 export function VisitProvider({ children }: { children: ReactNode }) {
-	const visits = useRecordVisit();
+	useCounter({
+		appId: COUNTER_APP_ID,
+		singleVisit: true,
+		enabled: import.meta.env.PROD,
+	});
+	const { data } = useGetCounts({ appId: COUNTER_APP_ID });
 
-	return <VisitsContext value={visits}>{children}</VisitsContext>;
+	return (
+		<VisitsContext value={data?.totalVisits ?? 0}>{children}</VisitsContext>
+	);
 }
 
 export function useVisitCount() {
