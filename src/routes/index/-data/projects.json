@@ -21,6 +21,13 @@
 			"live": "https://migranium.com/"
 		},
 		{
+			"name": "AULA F75 Mac Driver",
+			"description": "Native macOS driver for the AULA F75 keyboard: live RGB lighting, a music visualiser, saved effects, macros, and keyboard settings over USB or the 2.4 GHz dongle, no Windows-only vendor app needed.",
+			"image": "/projects/projects-11.webp",
+			"live": "https://aula-f75.itzadetunji.com/",
+			"repo": "https://github.com/Itzadetunji/aula-f75-mac-driver"
+		},
+		{
 			"name": "Eva eSIM",
 			"description": "Travel eSIM for 200+ destinations: buy and activate global data as a PWA, search countries and plans geospatially, and keep a Firebase admin chat panel so support can reply in real time.",
 			"image": "/projects/projects-3.webp",
